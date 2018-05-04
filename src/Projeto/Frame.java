@@ -20,6 +20,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollBar;
+import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
@@ -43,6 +44,13 @@ public class Frame extends JFrame {
 	private int multiplicador = 1;
 	private int j = 0;
 	private int i = 0;
+	private int k = 0;
+	private int l= 0;
+	private int m = 0;
+	private int n = 0;
+	private int o = 0;
+	private int p = 0;
+	private int level = 0;
 	private int cont = 1;
 	private int custoPadrao = 1;
 	private final int TEMPO = 1;
@@ -57,17 +65,10 @@ public class Frame extends JFrame {
 		JPanel clickUpgradePanel = new JPanel();
 		JPanel upPanel = new JPanel();
 
-		JScrollBar scrollbar = new JScrollBar(SwingConstants.VERTICAL);
-		scrollbar.addAdjustmentListener(new AdjustmentListener() {
-			
-			@Override
-			public void adjustmentValueChanged(AdjustmentEvent e) {
-				// TODO Auto-generated method stub
-				
-			}
-		});
-		upgradePanel.add(scrollbar, BorderLayout.EAST);
-		
+		JScrollPane putamerda = new JScrollPane(upgradePanel);
+		putamerda.setBackground(Color.RED);
+		putamerda.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
+
 		upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.PAGE_AXIS));
 		clickUpgradePanel.setLayout(new BoxLayout(clickUpgradePanel, BoxLayout.PAGE_AXIS));
 		upPanel.setLayout(new BoxLayout(upPanel, BoxLayout.PAGE_AXIS));
@@ -78,18 +79,14 @@ public class Frame extends JFrame {
 
 		setLayout(new GridLayout(3, 1));
 		add(upPanel);
-		// add(downPanel);
 
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
-		tabs.addTab("Upgrade Auto-Click", upgradePanel);
+		tabs.addTab("Upgrade Auto-Click", putamerda);
 		tabs.addTab("Upgrade Click", clickUpgradePanel);
-<<<<<<< HEAD
-		
+
 		telaAcumulador = new JLabel("Artigos: " + clicker.getAcumulador());
-=======
 
 		telaAcumulador = new JLabel("Processinhos: " + clicker.getAcumulador());
->>>>>>> fd547ff1f4c7c9602978f9a8c4c021d887cbf9e7
 		telaAcumulador.setAlignmentX(LEFT_ALIGNMENT);
 		telaAcumulador.setAlignmentY(TOP_ALIGNMENT);
 		upPanel.add(telaAcumulador);
@@ -99,7 +96,7 @@ public class Frame extends JFrame {
 		upgradeClick.setAlignmentY(TOP_ALIGNMENT);
 		upPanel.add(upgradeClick);
 
-		labelLevel = new JLabel("Level: " + clicker.getLevel());
+		labelLevel = new JLabel("Level: " + level);
 		labelLevel.setAlignmentX(LEFT_ALIGNMENT);
 		labelLevel.setAlignmentY(TOP_ALIGNMENT);
 		upPanel.add(labelLevel);
@@ -127,527 +124,12 @@ public class Frame extends JFrame {
 			upgrades[j] = new Upgrade(clicker, j + 1, 1000);
 		}
 
-		JButton[] buttonsArtigos = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttonsArtigos[i] = new JButton(String.format("<html>Alunos fazendo artigo<br />(%d artigos)<html>",
-					(custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttonsArtigos[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttonsArtigos[this.i].setEnabled(false);
-					} else {
-						buttonsArtigos[this.i].setVisible(false);
-						buttonsArtigos[this.i + 1].setVisible(true);
-						this.i++;
-					}
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttonsArtigos[0].setVisible(true);
-
-		JButton[] buttonsGifs = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttonsGifs[i] = new JButton(String.format("<html>Alunos fazendo gifs<br />(%d artigos)<html>",
-					(custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttonsGifs[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttonsGifs[this.i].setEnabled(false);
-					} else {
-						buttonsGifs[this.i].setVisible(false);
-						buttonsGifs[this.i + 1].setVisible(true);
-						this.i++;
-					}
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttonsGifs[0].setVisible(true);
-
-		JButton[] buttonsPedia = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttonsPedia[i] = new JButton(String.format("<html>Fazer Artigopedias<br />(%d artigos)<html>",
-					(custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttonsPedia[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttonsPedia[this.i].setEnabled(false);
-					} else {
-						buttonsPedia[this.i].setVisible(false);
-						buttonsPedia[this.i + 1].setVisible(true);
-						this.i++;
-					}
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttonsPedia[0].setVisible(true);
-
-		JButton[] buttonsModem = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttonsModem[i] = new JButton(
-					String.format("<html>Criando o modem<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttonsModem[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttonsModem[this.i].setEnabled(false);
-					} else {
-						buttonsModem[this.i].setVisible(false);
-						buttonsModem[this.i + 1].setVisible(true);
-						this.i++;
-					}
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttonsModem[0].setVisible(true);
-
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
-		JButton[] buttons = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttons[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
-			btnUpgrade.setSize(50, 50);
-			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
-				if (clicker.getAcumulador() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAcumulador(clicker.getAcumulador() - custo);
-					Timer time = new Timer();
-					System.out.println(custo);
-					long delay = TEMPO * upgrade.getPeriodo();
-					time.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.acumular(1);
-						}
-					}, delay, delay);
-					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttons[this.i].setEnabled(false);
-					} else {
-						buttons[this.i].setVisible(false);
-						buttons[this.i + 1].setVisible(true);
-						this.i++;
-					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
-				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
-			});
-		}
-		buttons[0].setVisible(true);
-		
 		JButton[] buttonsArtigo = new JButton[QTDUPGRADE];
 		for (int i = 0; i < QTDUPGRADE; i++) {
 			Upgrade upgrade = upgrades[i];
-			buttonsArtigo[i] = new JButton(String.format("<html>Alunos fazendo artigo<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttons[i];
+			buttonsArtigo[i] = new JButton(String.format("<html>Alunos fazendo artigo<br />(%d artigos)<html>",
+					(custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsArtigo[i];
 			btnUpgrade.setSize(50, 50);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
@@ -667,7 +149,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
+					telaUpgrade.setText("Upgrade: " + (level++));
 					if (this.i == upgrades.length - 1) {
 						buttonsArtigo[this.i].setEnabled(false);
 					} else {
@@ -675,24 +157,18 @@ public class Frame extends JFrame {
 						buttonsArtigo[this.i + 1].setVisible(true);
 						this.i++;
 					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
 				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
 			});
 		}
 		buttonsArtigo[0].setVisible(true);
-		
+
 		JButton[] buttonsGifs = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttonsGifs[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttonsGifs[i];
+		for (int k = 0; k < QTDUPGRADE; k++) {
+			Upgrade upgrade = upgrades[k];
+			buttonsGifs[k] = new JButton(
+					String.format("<html>Alunos fazendo Gif<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsGifs[k];
 			btnUpgrade.setSize(50, 50);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
@@ -712,32 +188,26 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttonsGifs[this.i].setEnabled(false);
+					telaUpgrade.setText("Upgrade: " + (level++));
+					if (this.k == upgrades.length - 1) {
+						buttonsGifs[this.k].setEnabled(false);
 					} else {
-						buttonsGifs[this.i].setVisible(false);
-						buttonsGifs[this.i + 1].setVisible(true);
-						this.i++;
+						buttonsGifs[this.k].setVisible(false);
+						buttonsGifs[this.k + 1].setVisible(true);
+						this.k++;
 					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
 				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
 			});
 		}
 		buttonsGifs[0].setVisible(true);
-		
+
 		JButton[] buttonsPedia = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgrades[i];
-			buttonsPedia[i] = new JButton(String.format("<html>Upgrade<br />(%d processos)<html>", (custoPadrao * upgrade.getCusto())));
-			JButton btnUpgrade = buttonsPedia[i];
+		for (int l = 0; l < QTDUPGRADE; l++) {
+			Upgrade upgrade = upgrades[l];
+			buttonsPedia[l] = new JButton(
+					String.format("<html>Atualizar o ArtigoPedia<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsPedia[l];
 			btnUpgrade.setSize(50, 50);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
@@ -757,37 +227,187 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					repeticoes++;
-					telaUpgrade.setText("Upgrade: " + (this.i + 1));
-					if (this.i == upgrades.length - 1) {
-						buttonsPedia[this.i].setEnabled(false);
+					telaUpgrade.setText("Upgrade: " + (this.l + 1));
+					if (this.l == upgrades.length - 1) {
+						buttonsPedia[this.l].setEnabled(false);
 					} else {
-						buttonsPedia[this.i].setVisible(false);
-						buttonsPedia[this.i + 1].setVisible(true);
-						this.i++;
+						buttonsPedia[this.l].setVisible(false);
+						buttonsPedia[this.l + 1].setVisible(true);
+						this.l++;
 					}
-					if (cont == 10) {
-						clicker.levelUp();
-						labelLevel.setText("Level: " + clicker.getLevel());
-						cont = 0;
-						JOptionPane.showMessageDialog(null, "Level Up");
-					}
-					cont++;
 				} else
-					JOptionPane.showMessageDialog(null, "Você não possui processos suficiente");
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
 			});
 		}
 		buttonsPedia[0].setVisible(true);
 		
-//		Alunos fazendo artigo
-//		Alunos fazendo gifs
-//		CBW ajeitando o wikipedia
-//		Processos
-//		Colocando rede na sala de redes
-//		modem
-//		Trocar patente do modem por moto
-//		trocar faculdade(nivel): UFSC, USP, UNAM, Harvard, EMIT, Global, Via Lactea, Universo.
-//		Torturar com historias
+		JButton[] buttonsProcessos = new JButton[QTDUPGRADE];
+		for (int m = 0; m < QTDUPGRADE; m++) {
+			Upgrade upgrade = upgrades[m];
+			buttonsProcessos[m] = new JButton(
+					String.format("<html>Dar processos<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsProcessos[m];
+			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setVisible(false);
+			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
+			upgradePanel.add(btnUpgrade);
+			btnUpgrade.addActionListener((e) -> {
+				int custo = custoPadrao * upgrade.getCusto();
+				if (clicker.getAcumulador() >= custo) {
+					btnUpgrade.setEnabled(true);
+					clicker.setAcumulador(clicker.getAcumulador() - custo);
+					Timer time = new Timer();
+					System.out.println(custo);
+					long delay = TEMPO * upgrade.getPeriodo();
+					time.scheduleAtFixedRate(new TimerTask() {
+						@Override
+						public void run() {
+							clicker.acumular(1);
+						}
+					}, delay, delay);
+					repeticoes++;
+					telaUpgrade.setText("Upgrade: " + (level++));
+					if (this.m == upgrades.length - 1) {
+						buttonsProcessos[this.m].setEnabled(false);
+					} else {
+						buttonsProcessos[this.m].setVisible(false);
+						buttonsProcessos[this.m + 1].setVisible(true);
+						this.m++;
+					}
+				} else
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
+			});
+		}
+		buttonsProcessos[0].setVisible(true);
+
+		JButton[] buttonsSala = new JButton[QTDUPGRADE];
+		for (int n = 0; n < QTDUPGRADE; n++) {
+			Upgrade upgrade = upgrades[n];
+			buttonsSala[n] = new JButton(
+					String.format("<html>Colocar rede na sala<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsSala[n];
+			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setVisible(false);
+			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
+			upgradePanel.add(btnUpgrade);
+			btnUpgrade.addActionListener((e) -> {
+				int custo = custoPadrao * upgrade.getCusto();
+				if (clicker.getAcumulador() >= custo) {
+					btnUpgrade.setEnabled(true);
+					clicker.setAcumulador(clicker.getAcumulador() - custo);
+					Timer time = new Timer();
+					System.out.println(custo);
+					long delay = TEMPO * upgrade.getPeriodo();
+					time.scheduleAtFixedRate(new TimerTask() {
+						@Override
+						public void run() {
+							clicker.acumular(1);
+						}
+					}, delay, delay);
+					repeticoes++;
+					telaUpgrade.setText("Upgrade: " + (level++));
+					if (this.n == upgrades.length - 1) {
+						buttonsSala[this.n].setEnabled(false);
+					} else {
+						buttonsSala[this.n].setVisible(false);
+						buttonsSala[this.n + 1].setVisible(true);
+						this.n++;
+					}
+				} else
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
+			});
+		}
+		buttonsSala[0].setVisible(true);
 		
+		JButton[] buttonsModem = new JButton[QTDUPGRADE];
+		for (int o = 0; o < QTDUPGRADE; o++) {
+			Upgrade upgrade = upgrades[o];
+			buttonsModem[o] = new JButton(
+					String.format("<html>Inventar o modem<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsModem[o];
+			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setVisible(false);
+			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
+			upgradePanel.add(btnUpgrade);
+			btnUpgrade.addActionListener((e) -> {
+				int custo = custoPadrao * upgrade.getCusto();
+				if (clicker.getAcumulador() >= custo) {
+					btnUpgrade.setEnabled(true);
+					clicker.setAcumulador(clicker.getAcumulador() - custo);
+					Timer time = new Timer();
+					System.out.println(custo);
+					long delay = TEMPO * upgrade.getPeriodo();
+					time.scheduleAtFixedRate(new TimerTask() {
+						@Override
+						public void run() {
+							clicker.acumular(1);
+						}
+					}, delay, delay);
+					repeticoes++;
+					telaUpgrade.setText("Upgrade: " + (level++));
+					if (this.o == upgrades.length - 1) {
+						buttonsModem[this.o].setEnabled(false);
+					} else {
+						buttonsModem[this.o].setVisible(false);
+						buttonsModem[this.o + 1].setVisible(true);
+						this.o++;
+					}
+				} else
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
+			});
+		}
+		buttonsModem[0].setVisible(true);
+		
+		JButton[] buttonsHistoria = new JButton[QTDUPGRADE];
+		for (int p = 0; p < QTDUPGRADE; p++) {
+			Upgrade upgrade = upgrades[p];
+			buttonsHistoria[p] = new JButton(
+					String.format("<html>Contar historias<br />(%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			JButton btnUpgrade = buttonsHistoria[p];
+			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setVisible(false);
+			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
+			upgradePanel.add(btnUpgrade);
+			btnUpgrade.addActionListener((e) -> {
+				int custo = custoPadrao * upgrade.getCusto();
+				if (clicker.getAcumulador() >= custo) {
+					btnUpgrade.setEnabled(true);
+					clicker.setAcumulador(clicker.getAcumulador() - custo);
+					Timer time = new Timer();
+					System.out.println(custo);
+					long delay = TEMPO * upgrade.getPeriodo();
+					time.scheduleAtFixedRate(new TimerTask() {
+						@Override
+						public void run() {
+							clicker.acumular(1);
+						}
+					}, delay, delay);
+					repeticoes++;
+					telaUpgrade.setText("Upgrade: " + (level++));
+					if (this.p == upgrades.length - 1) {
+						buttonsHistoria[this.p].setEnabled(false);
+					} else {
+						buttonsHistoria[this.p].setVisible(false);
+						buttonsHistoria[this.p + 1].setVisible(true);
+						this.p++;
+					}
+				} else
+					JOptionPane.showMessageDialog(null, "Você não possui artigos suficiente");
+			});
+		}
+		buttonsHistoria[0].setVisible(true);
+		
+		// Alunos fazendo artigo <
+		// Alunos fazendo gifs <
+		// CBW ajeitando o wikipedia <
+		// Processos <
+		// Colocando rede na sala de redes <
+		// modem <
+		// Trocar patente do modem por moto
+		// trocar faculdade(nivel): UFSC, USP, UNAM, Harvard, EMIT, Global, Via Lactea,
+		// Universo.
+		// Torturar com historias <
+
 		JButton[] buttonsClick = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			Upgrade upgrade = upgrades[j];
