@@ -1,12 +1,11 @@
 package Projeto;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
 public class Clicker {
 
 	private int acumulador;
-	private int level;
+	private final String[] nivel = { "UFSC", "USP", "UNAM", "Harvard", "MIT", "Global", "Via Lactea", "Universo", "França" };
+	private String level;
+	private int upLevel = 0;
 
 	public void acumular(int multiplicador) {
 		acumulador += 1*multiplicador ;
@@ -21,10 +20,13 @@ public class Clicker {
 	}
 
 	public void levelUp() {
-		level++;
+		upLevel++;
 	}
 
-	public int getLevel() {
+	public String getLevel() {
+		
+		level = nivel[upLevel];
+		
 		return level;
 	}
 
