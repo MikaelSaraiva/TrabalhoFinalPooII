@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.AdjustmentEvent;
 import java.awt.event.AdjustmentListener;
+import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -31,12 +32,14 @@ public class Frame extends JFrame {
 	private JLabel labelLevel;
 	private JLabel telaUpgrade;
 	private JLabel upgradeClick;
+	private JLabel dpsLabel;
 	private JButton botaoAcumulador;
 	private JButton multCompras1;
 	private JButton multCompras10;
 	private JButton multCompras100;
 	private fibonacci fibo;
 	private Upgrade upgrade;
+	private Upgrade[] upgradesClick;
 	private final int QTDUPGRADE = 10;
 	private int repeticoes;
 	private int multicompras;
@@ -49,6 +52,8 @@ public class Frame extends JFrame {
 	private int n = 0;
 	private int o = 0;
 	private int p = 0;
+	private int q = 0;
+	private float dps = 0;
 	private int upgradeLevel = 1;
 	private int custoPadrao = 1;
 	private final int TEMPO = 1;
@@ -58,10 +63,15 @@ public class Frame extends JFrame {
 
 		fibo = new fibonacci();
 		clicker = new Clicker();
+		upgrade = new Upgrade();
 
 		JPanel upgradePanel = new JPanel();
 		JPanel clickUpgradePanel = new JPanel();
 		JPanel upPanel = new JPanel();
+		JPanel botaoPanel = new JPanel();
+		JPanel dadosPanel = new JPanel();
+
+		DecimalFormat apsFormat = new DecimalFormat("0.00");
 
 		JScrollPane scrollPane = new JScrollPane(upgradePanel);
 		scrollPane.setBackground(Color.RED);
@@ -69,49 +79,57 @@ public class Frame extends JFrame {
 
 		upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.PAGE_AXIS));
 		clickUpgradePanel.setLayout(new BoxLayout(clickUpgradePanel, BoxLayout.PAGE_AXIS));
-		upPanel.setLayout(new BoxLayout(upPanel, BoxLayout.PAGE_AXIS));
+		upPanel.setLayout(new GridLayout(1, 2));
+		botaoPanel.setLayout(new GridLayout(1, 1));
+		dadosPanel.setLayout(new BoxLayout(dadosPanel, BoxLayout.PAGE_AXIS));
 
 		upgradePanel.setBackground(Color.BLACK);
 		upPanel.setBackground(Color.WHITE);
 		clickUpgradePanel.setBackground(Color.BLACK);
 
-		setLayout(new GridLayout(3, 1));
+		upPanel.add(dadosPanel);
+		upPanel.add(botaoPanel);
+
+		setLayout(new GridLayout(2, 1));
 		add(upPanel);
 
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabs.addTab("Upgrade Auto-Click", scrollPane);
 		tabs.addTab("Upgrade Click", clickUpgradePanel);
+		add(tabs);
 
 		telaAcumulador = new JLabel("Artigos: " + clicker.getAcumulador());
 		telaAcumulador.setAlignmentX(LEFT_ALIGNMENT);
 		telaAcumulador.setAlignmentY(TOP_ALIGNMENT);
-		upPanel.add(telaAcumulador);
+		dadosPanel.add(telaAcumulador);
 
-		upgradeClick = new JLabel("Upgrade Click: " + (multiplicador - 1));
+		upgradeClick = new JLabel("Upgrade Click: 0");
 		upgradeClick.setAlignmentX(LEFT_ALIGNMENT);
 		upgradeClick.setAlignmentY(TOP_ALIGNMENT);
-		upPanel.add(upgradeClick);
+		dadosPanel.add(upgradeClick);
 
 		labelLevel = new JLabel("Level: " + clicker.getLevel());
 		labelLevel.setAlignmentX(LEFT_ALIGNMENT);
 		labelLevel.setAlignmentY(TOP_ALIGNMENT);
-		upPanel.add(labelLevel);
+		dadosPanel.add(labelLevel);
 
 		telaUpgrade = new JLabel("Upgrade: " + (upgradeLevel - 1));
 		telaUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 		telaUpgrade.setAlignmentY(TOP_ALIGNMENT);
-		upPanel.add(telaUpgrade);
+		dadosPanel.add(telaUpgrade);
+
+		dpsLabel = new JLabel("APS(Artigos per second): " + apsFormat.format(dps));
+		dadosPanel.add(dpsLabel);
 
 		botaoAcumulador = new JButton("Clique para pular mais");
-		add(botaoAcumulador);
-		add(tabs);
+		botaoPanel.add(botaoAcumulador);
 		botaoAcumulador.setAlignmentX(LEFT_ALIGNMENT);
 		botaoAcumulador.setAlignmentY(TOP_ALIGNMENT);
 		botaoAcumulador.setBounds(500, 500, 1, 1);
 		botaoAcumulador.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
-				clicker.acumular(multiplicador);
+				clicker.acumular(upgrade.getMulti());
 			}
 		});
 
@@ -141,9 +159,11 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 						}
 					}, delay, delay);
-					repeticoes++;
+					dps += 0.1;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.i == upgradesArtigo.length - 1) {
 						buttonsArtigo[this.i].setEnabled(false);
@@ -184,8 +204,11 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 						}
 					}, delay, delay);
+					dps += 1;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.k == upgradesGifs.length - 1) {
 						buttonsGifs[this.k].setEnabled(false);
@@ -209,7 +232,7 @@ public class Frame extends JFrame {
 		for (int l = 0; l < QTDUPGRADE; l++) {
 			Upgrade upgrade = upgradesPedia[l];
 			buttonsPedia[l] = new JButton(
-					String.format("Atualizar o ArtigoPedia (%d artigos)", (custoPadrao * upgrade.getCusto())));
+					String.format("Atualizar o ArtigoPédia (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsPedia[l];
 			btnUpgrade.setSize(50, 50);
 			btnUpgrade.setVisible(false);
@@ -226,8 +249,11 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 						}
 					}, delay, delay);
+					dps += 5;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.l == upgradesPedia.length - 1) {
 						buttonsPedia[this.l].setEnabled(false);
@@ -268,8 +294,11 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 						}
 					}, delay, delay);
+					dps += 10;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.m == upgradesProcessos.length - 1) {
 						buttonsProcessos[this.m].setEnabled(false);
@@ -310,8 +339,11 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 						}
 					}, delay, delay);
+					dps += 20;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.n == upgradesSala.length - 1) {
 						buttonsSala[this.n].setEnabled(false);
@@ -352,8 +384,11 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 						}
 					}, delay, delay);
+					dps += 30;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.o == upgradesModem.length - 1) {
 						buttonsModem[this.o].setEnabled(false);
@@ -394,8 +429,12 @@ public class Frame extends JFrame {
 						@Override
 						public void run() {
 							clicker.acumular(1);
+							if (clicker.getAcumulador() > 10000)
+								labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
+
 						}
 					}, delay, delay);
+					dps += 40;
 					telaUpgrade.setText("Upgrade: " + (upgradeLevel++));
 					if (this.p == upgradesHistoria.length - 1) {
 						buttonsHistoria[this.p].setEnabled(false);
@@ -422,27 +461,27 @@ public class Frame extends JFrame {
 		// Universo.
 		// Torturar com historias <
 
-		Upgrade[] upgradesClick = new Upgrade[QTDUPGRADE];
+		upgradesClick = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesClick[j] = new Upgrade(clicker, j + 1, 1000);
 		}
 
 		JButton[] buttonsClick = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
-			Upgrade upgrade = upgradesClick[j];
-			buttonsClick[j] = new JButton(String.format("Aumentar quantidade de cadeiras (%d processos)",
-					(custoPadrao * upgrade.getCusto())));
+			Upgrade upgradeMulti = upgradesClick[j];
+			buttonsClick[j] = new JButton(String.format("<html>Aumentar quantidade<br/> de cadeiras (%d processos)<html>",
+					(custoPadrao * upgradeMulti.getCusto())));
 			JButton btnUpgradeClick = buttonsClick[j];
 			btnUpgradeClick.setSize(100, 100);
 			btnUpgradeClick.setVisible(false);
 			btnUpgradeClick.setAlignmentX(LEFT_ALIGNMENT);
 			clickUpgradePanel.add(btnUpgradeClick);
 			btnUpgradeClick.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCusto();
+				int custo = custoPadrao * upgradeMulti.getCusto();
 				if (clicker.getAcumulador() >= custo) {
 					btnUpgradeClick.setEnabled(true);
-					multiplicador++;
-					upgradeClick.setText("Upgrade Click: " + (multiplicador - 1));
+					upgrade.upgradeClick();
+					upgradeClick.setText("Upgrade Click: " + (upgrade.getMulti() - 1));
 					clicker.setAcumulador(clicker.getAcumulador() - custo);
 					telaAcumulador.setText("Artigos: " + clicker.getAcumulador());
 					if (this.j == upgradesClick.length - 1) {
@@ -464,44 +503,15 @@ public class Frame extends JFrame {
 			@Override
 			public void run() {
 				telaAcumulador.setText("Artigos: " + clicker.getAcumulador());
+				dpsLabel.setText("APS(Artigos per second): " + apsFormat.format(dps));
+				if (clicker.getAcumulador() >= 10000 + (q * 20000)) {
+					labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
+					q++;
+				}
+
 			}
-		}, 0, TEMPO * 1000);
+		}, 0, TEMPO * 100);
 
-		if (clicker.getAcumulador() == 10000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-			System.out.println("2");
-		} else if (clicker.getAcumulador() == 30000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-		} else if (clicker.getAcumulador() == 60000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-		} else if (clicker.getAcumulador() == 80000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-		} else if (clicker.getAcumulador() == 160000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-		} else if (clicker.getAcumulador() == 180000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-		} else if (clicker.getAcumulador() == 360000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-		} else if (clicker.getAcumulador() == 380000) {
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
-			clicker.levelUp();
-			labelLevel.setText("Level: " + clicker.getLevel());
-
-		}
 		// multCompras1 = new JButton("1x");
 		// multCompras1.setEnabled(false);
 		// multCompras1.setSize(10, 10);
