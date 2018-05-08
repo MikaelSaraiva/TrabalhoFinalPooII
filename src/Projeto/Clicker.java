@@ -5,7 +5,7 @@ import javax.swing.JOptionPane;
 public class Clicker {
 	private int acumulador;
 
-	private final String[] nivel = { "França", "Universo", "Via Lactea", "Global", "MIT", "Harvard", "UNAM", "USP",
+	private final String[] nivel = { "University of Toulouse, França", "Universo", "Via Lactea", "Global", "MIT", "Harvard", "UNAM", "USP",
 			"UFSC", };
 	private String level;
 	private int upLevel = 8;

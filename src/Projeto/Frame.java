@@ -44,8 +44,8 @@ public class Frame extends JFrame {
 	private int repeticoes;
 	private int multicompras;
 	private int multiplicador = 1;
-	private int j = 0;
 	private int i = 0;
+	private int j = 0;
 	private int k = 0;
 	private int l = 0;
 	private int m = 0;
@@ -59,7 +59,7 @@ public class Frame extends JFrame {
 	private final int TEMPO = 1;
 
 	public Frame() {
-		super("Joguinho muito louco");
+		super("Super Jumper");
 
 		fibo = new fibonacci();
 		clicker = new Clicker();
@@ -125,7 +125,9 @@ public class Frame extends JFrame {
 		botaoPanel.add(botaoAcumulador);
 		botaoAcumulador.setAlignmentX(LEFT_ALIGNMENT);
 		botaoAcumulador.setAlignmentY(TOP_ALIGNMENT);
-		botaoAcumulador.setBounds(500, 500, 1, 1);
+		botaoAcumulador.setOpaque(false);
+		botaoAcumulador.setContentAreaFilled(false);
+		botaoAcumulador.setBorderPainted(false);
 		botaoAcumulador.addActionListener(new ActionListener() {
 			@Override
 			public void actionPerformed(ActionEvent event) {
@@ -142,7 +144,7 @@ public class Frame extends JFrame {
 		for (int i = 0; i < QTDUPGRADE; i++) {
 			Upgrade upgrade = upgradesArtigo[i];
 			buttonsArtigo[i] = new JButton(
-					String.format("Alunos fazendo artigo (%d artigos)", (custoPadrao * upgrade.getCusto())));
+					String.format("<html>Alunos fazendo artigo (%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsArtigo[i];
 			btnUpgrade.setSize(50, 50);
 			btnUpgrade.setVisible(false);
@@ -469,8 +471,9 @@ public class Frame extends JFrame {
 		JButton[] buttonsClick = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			Upgrade upgradeMulti = upgradesClick[j];
-			buttonsClick[j] = new JButton(String.format("<html>Aumentar quantidade<br/> de cadeiras (%d processos)<html>",
-					(custoPadrao * upgradeMulti.getCusto())));
+			buttonsClick[j] = new JButton(
+					String.format("<html>Aumentar quantidade<br/> de cadeiras (%d processos)<html>",
+							(custoPadrao * upgradeMulti.getCusto())));
 			JButton btnUpgradeClick = buttonsClick[j];
 			btnUpgradeClick.setSize(100, 100);
 			btnUpgradeClick.setVisible(false);
@@ -515,7 +518,7 @@ public class Frame extends JFrame {
 		// multCompras1 = new JButton("1x");
 		// multCompras1.setEnabled(false);
 		// multCompras1.setSize(10, 10);
-		// add(multCompras1);
+		// dadosPanel.add(multCompras1);
 		// multCompras1.addActionListener(new ActionListener() {
 		//
 		// @Override
@@ -530,7 +533,7 @@ public class Frame extends JFrame {
 		// });
 		// multCompras10 = new JButton("10x");
 		// multCompras10.setSize(10, 10);
-		// add(multCompras10);
+		// dadosPanel.add(multCompras10);
 		// multCompras10.addActionListener(new ActionListener() {
 		//
 		// @Override
@@ -544,7 +547,7 @@ public class Frame extends JFrame {
 		// });
 		// multCompras100 = new JButton("100x");
 		// multCompras100.setSize(10, 10);
-		// add(multCompras100);
+		// dadosPanel.add(multCompras100);
 		// multCompras100.addActionListener(new ActionListener() {
 		//
 		// @Override
@@ -556,7 +559,7 @@ public class Frame extends JFrame {
 		// multCompras100.setEnabled(false);
 		// }
 		// });
-
+		//
 		// ButtonGroup multiplicadoresCompra = new ButtonGroup();
 		// multiplicadoresCompra.add(multCompras1);
 		// multiplicadoresCompra.add(multCompras10);
