@@ -1,27 +1,31 @@
 package Projeto;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Component;
+import java.awt.Dimension;
 import java.awt.FlowLayout;
+import java.awt.Font;
+import java.awt.GridBagConstraints;
+import java.awt.GridBagLayout;
 import java.awt.GridLayout;
-import java.awt.event.ActionEvent;
-import java.awt.event.ActionListener;
-import java.awt.event.AdjustmentEvent;
-import java.awt.event.AdjustmentListener;
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
 
-import javax.swing.Box;
 import javax.swing.BoxLayout;
-import javax.swing.ButtonGroup;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JButton;
+import javax.swing.JDialog;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
+import javax.swing.JMenu;
+import javax.swing.JMenuBar;
+import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
-import javax.swing.JScrollBar;
 import javax.swing.JScrollPane;
+
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
@@ -33,17 +37,18 @@ public class Frame extends JFrame {
 	private JLabel telaUpgrade;
 	private JLabel upgradeClick;
 	private JLabel dpsLabel;
+	private JLabel artigosLabel;
+	private JLabel pediaLabel;
+	private JLabel gifsLabel;
+	private JLabel historiaLabel;
+	private JLabel modemLabel;
+	private JLabel processosLabel;
+	private JLabel salaLabel;
 	private JButton botaoAcumulador;
-	private JButton multCompras1;
-	private JButton multCompras10;
-	private JButton multCompras100;
 	private fibonacci fibo;
 	private Upgrade upgrade;
 	private Upgrade[] upgradesClick;
 	private final int QTDUPGRADE = 10;
-	private int repeticoes;
-	private int multicompras;
-	private int multiplicador = 1;
 	private int i = 0;
 	private int j = 0;
 	private int k = 0;
@@ -57,6 +62,11 @@ public class Frame extends JFrame {
 	private int upgradeLevel = 1;
 	private int custoPadrao = 1;
 	private final int TEMPO = 1;
+	private final int ACHIEVEMENT = 7;
+	private final String[] TEXTACHI = { "Trocar modem/moto", "horas jogadas", "quantidade de cadeiras puladas",
+			"nivel hard(ir pra fraça sem upgrade)", "Sem trapacear", "Nada de molesa", "Camiseta Confortavel" };
+	private GridBagLayout layout; // layout of this frame
+	private GridBagConstraints constraints; // constraints of this layout
 
 	public Frame() {
 		super("Super Jumper");
@@ -70,22 +80,85 @@ public class Frame extends JFrame {
 		JPanel upPanel = new JPanel();
 		JPanel botaoPanel = new JPanel();
 		JPanel dadosPanel = new JPanel();
+		JPanel resetUpgrades = new JPanel();
+		JPanel panelAchievement = new JPanel();
+		JPanel upAchievement = new JPanel();
+		JPanel downAchievement = new JPanel();
+		JButton[] buttonAchievement;
+		JMenu menu = new JMenu("File");
+		JMenu achievement = new JMenu("Conquistas");
+		JMenuBar bar = new JMenuBar();
+		JMenuItem exit = new JMenuItem("Sair");
+		JMenuItem save = new JMenuItem("Salvar");
+		JMenuItem changeUser = new JMenuItem("Mudar Usuario");
+		JMenuItem about = new JMenuItem("Sobre o Jogo");
+		JMenuItem itemAchievement = new JMenuItem("Conquistas");
+		JDialog dialogAchievement = new JDialog(this, "Conquistas", true);
 
 		DecimalFormat apsFormat = new DecimalFormat("0.00");
+
+		menu.add(changeUser);
+		menu.add(save);
+		menu.add(about);
+		menu.add(exit);
+
+		dialogAchievement.add(panelAchievement);
+
+		upAchievement.setSize(400, 100);
+		downAchievement.setSize(400, 300);
+
+		panelAchievement.add(upAchievement);
+		panelAchievement.add(downAchievement);
+
+		upAchievement.setBackground(Color.YELLOW);
+		downAchievement.setBackground(Color.BLUE);
+
+		achievement.add(itemAchievement);
+
+		setJMenuBar(bar);
+		bar.add(menu);
+		bar.add(achievement);
+
+		itemAchievement.addActionListener((e) -> {
+			dialogAchievement.setSize(400, 400);
+			dialogAchievement.setLocationRelativeTo(dialogAchievement);
+			dialogAchievement.setVisible(true);
+		});
+
+		exit.addActionListener((e) -> {
+			// TODO Ação do menu "Sair"
+			System.exit(0);
+		});
+
+		about.addActionListener((e) -> {
+			JOptionPane.showMessageDialog(null,
+					"Jogo no estilo Clicker baseado na necessidade de pular cadeiras. Desenvolvido por Bóreas e Marki Cast ,\n "
+							+ "o jogo apresenta nosso personagem principal, César Barrichello Wessig, pulando cadeiras e desenvolvendo artigos \n "
+							+ "para ajudar a humanidade com seu  conhecimento imensurável. Enquanto mais artigos publicados, mais poderosa fica \n"
+							+ "sua mente e mais longe o personagem pode chegar.",
+					"Sobre o jogo", JOptionPane.PLAIN_MESSAGE);
+
+		});
 
 		JScrollPane scrollPane = new JScrollPane(upgradePanel);
 		scrollPane.setBackground(Color.RED);
 		scrollPane.setVerticalScrollBarPolicy(JScrollPane.VERTICAL_SCROLLBAR_ALWAYS);
 
-		upgradePanel.setLayout(new BoxLayout(upgradePanel, BoxLayout.PAGE_AXIS));
+		upgradePanel.setLayout(null);
+		upgradePanel.setPreferredSize(new Dimension(510, 7 * 50));
 		clickUpgradePanel.setLayout(new BoxLayout(clickUpgradePanel, BoxLayout.PAGE_AXIS));
+		dadosPanel.setLayout(new BoxLayout(dadosPanel, BoxLayout.PAGE_AXIS));
+		resetUpgrades.setLayout(new BoxLayout(resetUpgrades, BoxLayout.PAGE_AXIS));
 		upPanel.setLayout(new GridLayout(1, 2));
 		botaoPanel.setLayout(new GridLayout(1, 1));
-		dadosPanel.setLayout(new BoxLayout(dadosPanel, BoxLayout.PAGE_AXIS));
+		panelAchievement.setLayout(new GridLayout(2, 1));
+		upAchievement.setLayout(new FlowLayout());
+		downAchievement.setLayout(new GridLayout(3, 2, 5, 5));
 
 		upgradePanel.setBackground(Color.BLACK);
 		upPanel.setBackground(Color.WHITE);
 		clickUpgradePanel.setBackground(Color.BLACK);
+		resetUpgrades.setBackground(Color.BLACK);
 
 		upPanel.add(dadosPanel);
 		upPanel.add(botaoPanel);
@@ -96,6 +169,7 @@ public class Frame extends JFrame {
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP, JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabs.addTab("Upgrade Auto-Click", scrollPane);
 		tabs.addTab("Upgrade Click", clickUpgradePanel);
+		tabs.addTab("Upgrade Reset", resetUpgrades);
 		add(tabs);
 
 		telaAcumulador = new JLabel("Artigos: " + clicker.getAcumulador());
@@ -121,34 +195,92 @@ public class Frame extends JFrame {
 		dpsLabel = new JLabel("APS(Artigos per second): " + apsFormat.format(dps));
 		dadosPanel.add(dpsLabel);
 
+		int altura = 40;
+		int largura = 375;
+		int espacamento = altura + 10;
+
+		artigosLabel = new JLabel(
+				"<html>Alunos fazendo artigos para melhor seu futuro,<br> mas acabando com sua sanidade mental e paciência<html>");
+		artigosLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		artigosLabel.setHorizontalTextPosition(JLabel.CENTER);
+		artigosLabel.setBounds(0, 0, largura, altura);
+		upgradePanel.add(artigosLabel);
+
+		gifsLabel = new JLabel(
+				"<html>Alunos usando hack e copiando os gifs dos <br/>veteranos, mas não fazendo exatamente igual.         <html>");
+		gifsLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		gifsLabel.setHorizontalTextPosition(JLabel.CENTER);
+		gifsLabel.setBounds(0, espacamento, largura, altura);
+		upgradePanel.add(gifsLabel);
+
+		pediaLabel = new JLabel(
+				"<html>Alunos fazendo artigos para melhor seu futuro,<br/> mas acabando com sua sanidade mental e paciência<html>");
+		pediaLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		pediaLabel.setHorizontalTextPosition(JLabel.CENTER);
+		pediaLabel.setBounds(0, espacamento * 2, largura, altura);
+		upgradePanel.add(pediaLabel);
+
+		processosLabel = new JLabel(
+				"<html>Alunos fazendo artigos para melhor seu futuro,<br/> mas acabando com sua sanidade mental e paciência<html>");
+		processosLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		processosLabel.setHorizontalTextPosition(JLabel.CENTER);
+		processosLabel.setBounds(0, espacamento * 3, largura, altura);
+		upgradePanel.add(processosLabel);
+
+		salaLabel = new JLabel(
+				"<html>Alunos fazendo artigos para melhor seu futuro,<br/> mas acabando com sua sanidade mental e paciência<html>");
+		salaLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		salaLabel.setHorizontalTextPosition(JLabel.CENTER);
+		salaLabel.setBounds(0, espacamento * 4, largura, altura);
+		upgradePanel.add(salaLabel);
+
+		modemLabel = new JLabel(
+				"<html>Alunos fazendo artigos para melhor seu futuro,<br/> mas acabando com sua sanidade mental e paciência<html>");
+		modemLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		modemLabel.setHorizontalTextPosition(JLabel.CENTER);
+		modemLabel.setBounds(0, espacamento * 5, largura, altura);
+		upgradePanel.add(modemLabel);
+
+		historiaLabel = new JLabel(
+				"<html>Alunos fazendo artigos para melhor seu futuro,<br/> mas acabando com sua sanidade mental e paciência<html>");
+		historiaLabel.setIcon(new ImageIcon(this.getClass().getResource("branco.jpg")));
+		historiaLabel.setHorizontalTextPosition(JLabel.CENTER);
+		historiaLabel.setBounds(0, espacamento * 6, largura, altura);
+		upgradePanel.add(historiaLabel);
+
 		botaoAcumulador = new JButton("Clique para pular mais");
 		botaoPanel.add(botaoAcumulador);
-		botaoAcumulador.setAlignmentX(LEFT_ALIGNMENT);
 		botaoAcumulador.setAlignmentY(TOP_ALIGNMENT);
 		botaoAcumulador.setOpaque(false);
 		botaoAcumulador.setContentAreaFilled(false);
 		botaoAcumulador.setBorderPainted(false);
-		botaoAcumulador.addActionListener(new ActionListener() {
-			@Override
-			public void actionPerformed(ActionEvent event) {
-				clicker.acumular(upgrade.getMulti());
-			}
+		botaoAcumulador.addActionListener((e) -> {
+			// TODO Ação botão acumulador
+			clicker.acumular(upgrade.getMulti());
 		});
+
+		buttonAchievement = new JButton[ACHIEVEMENT];
+		for (int a = 0; a < ACHIEVEMENT; a++) {
+			buttonAchievement[a] = new JButton(TEXTACHI[a]);
+			JButton achievementButton = buttonAchievement[a];
+			achievementButton.setEnabled(false);
+			downAchievement.add(achievementButton);
+		}
 
 		Upgrade[] upgradesArtigo = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesArtigo[j] = new Upgrade(clicker, j + 1, 10000);
 		}
 
+		// TODO Botão Artigo
 		JButton[] buttonsArtigo = new JButton[QTDUPGRADE];
 		for (int i = 0; i < QTDUPGRADE; i++) {
 			Upgrade upgrade = upgradesArtigo[i];
-			buttonsArtigo[i] = new JButton(
-					String.format("<html>Alunos fazendo artigo (%d artigos)<html>", (custoPadrao * upgrade.getCusto())));
+			buttonsArtigo[i] = new JButton(String.format("%d artigos", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsArtigo[i];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, 0, 100, altura);
+			btnUpgrade.setHorizontalAlignment(SwingConstants.RIGHT);
 			btnUpgrade.setVisible(false);
-			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
 			btnUpgrade.addActionListener((e) -> {
 				int custo = custoPadrao * upgrade.getCusto();
@@ -180,6 +312,7 @@ public class Frame extends JFrame {
 		}
 		buttonsArtigo[0].setVisible(true);
 
+		// TODO Botão Gifs
 		Upgrade[] upgradesGifs = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesGifs[j] = new Upgrade(clicker, j + 1, 1000);
@@ -191,7 +324,7 @@ public class Frame extends JFrame {
 			buttonsGifs[k] = new JButton(
 					String.format("Alunos fazendo Gif (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsGifs[k];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, espacamento, 100, 40);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -203,6 +336,7 @@ public class Frame extends JFrame {
 					Timer time = new Timer();
 					long delay = TEMPO * upgrade.getPeriodo();
 					time.scheduleAtFixedRate(new TimerTask() {
+
 						@Override
 						public void run() {
 							clicker.acumular(1);
@@ -225,6 +359,7 @@ public class Frame extends JFrame {
 		}
 		buttonsGifs[0].setVisible(true);
 
+		// TODO Botão ArtigoPédia
 		Upgrade[] upgradesPedia = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesPedia[j] = new Upgrade(clicker, j + 1, 200);
@@ -236,7 +371,7 @@ public class Frame extends JFrame {
 			buttonsPedia[l] = new JButton(
 					String.format("Atualizar o ArtigoPédia (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsPedia[l];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, espacamento * 2, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -270,6 +405,7 @@ public class Frame extends JFrame {
 		}
 		buttonsPedia[0].setVisible(true);
 
+		// TODO Botão Processos
 		Upgrade[] upgradesProcessos = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesProcessos[j] = new Upgrade(clicker, j + 1, 100);
@@ -281,7 +417,7 @@ public class Frame extends JFrame {
 			buttonsProcessos[m] = new JButton(
 					String.format("Dar processos (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsProcessos[m];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, espacamento * 3, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -315,6 +451,7 @@ public class Frame extends JFrame {
 		}
 		buttonsProcessos[0].setVisible(true);
 
+		// TODO Botão Cortina na Sala
 		Upgrade[] upgradesSala = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesSala[j] = new Upgrade(clicker, j + 1, 50);
@@ -326,7 +463,7 @@ public class Frame extends JFrame {
 			buttonsSala[n] = new JButton(
 					String.format("Colocar rede na sala (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsSala[n];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, espacamento * 4, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -360,6 +497,7 @@ public class Frame extends JFrame {
 		}
 		buttonsSala[0].setVisible(true);
 
+		// TODO Botão Modem
 		Upgrade[] upgradesModem = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesModem[j] = new Upgrade(clicker, j + 1, 33);
@@ -371,7 +509,7 @@ public class Frame extends JFrame {
 			buttonsModem[o] = new JButton(
 					String.format("Inventar o modem (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsModem[o];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, espacamento * 5, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -405,6 +543,7 @@ public class Frame extends JFrame {
 		}
 		buttonsModem[0].setVisible(true);
 
+		// TODO Botão História
 		Upgrade[] upgradesHistoria = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesHistoria[j] = new Upgrade(clicker, j + 1, 25);
@@ -416,7 +555,7 @@ public class Frame extends JFrame {
 			buttonsHistoria[p] = new JButton(
 					String.format("Contar historias (%d artigos)", (custoPadrao * upgrade.getCusto())));
 			JButton btnUpgrade = buttonsHistoria[p];
-			btnUpgrade.setSize(50, 50);
+			btnUpgrade.setBounds(410, espacamento * 6, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -468,6 +607,7 @@ public class Frame extends JFrame {
 			upgradesClick[j] = new Upgrade(clicker, j + 1, 1000);
 		}
 
+		// TODO Botão aumentar quantidade de cadeiras
 		JButton[] buttonsClick = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			Upgrade upgradeMulti = upgradesClick[j];
@@ -500,7 +640,7 @@ public class Frame extends JFrame {
 		}
 		buttonsClick[0].setVisible(true);
 
-		// Para ficar sempre atualizando o texto...
+		// TODO Para ficar sempre atualizando o texto...
 		Timer time = new Timer();
 		time.scheduleAtFixedRate(new TimerTask() {
 			@Override
@@ -510,6 +650,14 @@ public class Frame extends JFrame {
 				if (clicker.getAcumulador() >= 10000 + (q * 20000)) {
 					labelLevel.setText("Level: " + clicker.nivel(clicker.getAcumulador()));
 					q++;
+				}
+				if (clicker.getAcumulador() > 1000) {
+					int acc = clicker.getAcumulador();
+					telaAcumulador.setText("Artigos: " + (acc / 1000) + "," + ((acc / 100) % 10) + "K");
+					if (clicker.getAcumulador() > 100000) {
+						telaAcumulador.setText("Artigos: " + (acc / 1000) + "," + ((acc / 100) % 10) + "KK");
+
+					}
 				}
 
 			}

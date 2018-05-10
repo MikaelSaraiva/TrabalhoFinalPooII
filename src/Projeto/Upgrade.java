@@ -5,7 +5,6 @@ public class Upgrade {
 	private int custo = 1;
 	private int periodo = 1000;
 	private int multiplicador = 1;
-	private int multCompras = 1;
 	private Clicker clicker = new Clicker();
 
 	public Upgrade() {
