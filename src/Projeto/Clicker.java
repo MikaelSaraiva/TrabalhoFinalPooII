@@ -5,10 +5,11 @@ import javax.swing.JOptionPane;
 public class Clicker {
 	private int acumulador;
 
-	private final String[] nivel = { "University of Toulouse, França", "Universo", "Via Lactea", "Global", "MIT",
-			"Harvard", "UNAM", "USP", "UFSC", };
+	private final String[] nivel = { "UFSC", "USP", "UNAM", "Harvard", "MIT", "Global", "Via Lactea", "Universo",
+			"University of Toulouse, França", };
 	private String level;
-	private int upLevel = 8;
+	private int upLevel = 0;
+	private int resetCoin = 0;
 
 	public void acumular(int multiplicador) {
 		acumulador += 1 * multiplicador;
@@ -23,7 +24,11 @@ public class Clicker {
 	}
 
 	public void levelUp() {
-		upLevel--;
+		upLevel++;
+	}
+
+	public void setLevel(int upLevel) {
+		this.upLevel = upLevel;
 	}
 
 	public String getLevel() {
@@ -31,6 +36,14 @@ public class Clicker {
 		level = nivel[upLevel];
 
 		return level;
+	}
+
+	public void setResetCoin(int resetCoin) {
+		this.resetCoin = resetCoin;
+	}
+
+	public int getResetCoin() {
+		return resetCoin;
 	}
 
 	public String nivel(int acumulador) {
