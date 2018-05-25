@@ -3,24 +3,26 @@ package Projeto;
 import javax.swing.JOptionPane;
 
 public class Clicker {
-	private int acumulador;
+	private int accumulator;
 
-	private final String[] nivel = { "UFSC", "USP", "UNAM", "Harvard", "MIT", "Global", "Via Lactea", "Universo",
+	private final String[] namesLevel = { "UFSC", "USP", "UNAM", "Harvard",
+			"MIT", "Global", "Via Lactea", "Universo",
 			"University of Toulouse, França", };
 	private String level;
 	private int upLevel = 0;
 	private int resetCoin = 0;
+	private float dps;
 
-	public void acumular(int multiplicador) {
-		acumulador += 1 * multiplicador;
+	public void accumulate(int multiplicador) {
+		accumulator += 1 * multiplicador;
 	}
 
-	public int getAcumulador() {
-		return acumulador;
+	public int getAccumulate() {
+		return accumulator;
 	}
 
-	public void setAcumulador(int acumulador) {
-		this.acumulador = acumulador;
+	public void setAccumulate(int accumulator) {
+		this.accumulator = accumulator;
 	}
 
 	public void levelUp() {
@@ -33,7 +35,7 @@ public class Clicker {
 
 	public String getLevel() {
 
-		level = nivel[upLevel];
+		level = namesLevel[upLevel];
 
 		return level;
 	}
@@ -46,10 +48,18 @@ public class Clicker {
 		return resetCoin;
 	}
 
-	public String nivel(int acumulador) {
+	public float getDPS() {
+		return dps;
+	}
+
+	public void setDPS(float dps) {
+		this.dps = dps;
+	}
+
+	public String nivel(int accumulator) {
 
 		String labelLevel = getLevel(); // UFSC
-		switch (acumulador) {
+		switch (accumulator) {
 		case 20000:
 			JOptionPane.showMessageDialog(null, "Passou de nivel");
 			levelUp();

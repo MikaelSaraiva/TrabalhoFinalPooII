@@ -1,52 +1,59 @@
 package Projeto;
 
+import java.util.Timer;
+import java.util.TimerTask;
+
+import javax.swing.JButton;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+import javax.swing.SwingConstants;
+
 public class Upgrade {
 
-	private int custo = 1;
-	private int periodo = 1000;
-	private int multiplicador = 1;
+	private int cost = 1;
+	private int period = 1000;
+	private int multiplier = 1;
 	private Clicker clicker = new Clicker();
 
 	public Upgrade() {
 
 	}
 
-	public Upgrade(Clicker clicker, int custo) {
+	public Upgrade(Clicker clicker, int cost) {
 		this.clicker = clicker;
-		this.custo = custo;
+		this.cost = cost;
 	}
 
-	public Upgrade(Clicker clicker, int custo, int periodo) {
-		this(clicker, custo);
-		this.periodo = periodo;
+	public Upgrade(Clicker clicker, int cost, int period) {
+		this(clicker, cost);
+		this.period = period;
 	}
 
-	public void custo() {
-		custo += custo;
+	public void costUp() {
+		cost += cost;
 	}
 
-	public int getCusto() {
-		return custo;
+	public int getCost() {
+		return cost;
 	}
 
-	public void setCusto(int custo) {
-		this.custo = custo;
+	public void setCost(int cost) {
+		this.cost = cost;
 	}
 
-	public int getPeriodo() {
-		return periodo;
+	public int getPeriod() {
+		return period;
 	}
 
 	public void upgradeClick() {
-		multiplicador++;
+		multiplier++;
 	}
 
 	public int getMulti() {
-		return multiplicador;
+		return multiplier;
 	}
 
-	public int multCompras(int vezes) {
-		custo = custo * vezes;
-		return custo;
+	public void setMulti(int multiplier) {
+		this.multiplier = multiplier;
 	}
 }
