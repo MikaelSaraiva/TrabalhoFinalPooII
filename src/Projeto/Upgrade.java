@@ -1,13 +1,5 @@
 package Projeto;
 
-import java.util.Timer;
-import java.util.TimerTask;
-
-import javax.swing.JButton;
-import javax.swing.JLabel;
-import javax.swing.JOptionPane;
-import javax.swing.SwingConstants;
-
 public class Upgrade {
 
 	private int cost = 1;

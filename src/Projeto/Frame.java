@@ -44,10 +44,10 @@ public class Frame extends JFrame {
 	private JLabel modemLabel;
 	private JLabel processosLabel;
 	private JLabel salaLabel;
+	private JLabel coinResetLabel;
 	private JButton buttonAccumulator;
 	private fibonacci fibo;
 	private Upgrade upgrade;
-	private Upgrade[] upgradesClick;
 	private int pacito = 0;
 	private int artigo = 0;
 	private int click = 0;
@@ -57,9 +57,12 @@ public class Frame extends JFrame {
 	private int sala = 0;
 	private int modem = 0;
 	private int historia = 0;
+	private int tempo = 0;
 	private int q = 0;
 	private int upgradeLevel = 1;
 	private int custoPadrao = 1;
+	private int diminutiveTime = 1;
+	private double auxCoinReset = 0.0;
 	private float dps = 0;
 	private final int QTDUPGRADE = 10;
 	private final int TEMPO = 1;
@@ -67,7 +70,7 @@ public class Frame extends JFrame {
 	private final String[] TEXTACHI = { "Trocar modem/moto", "horas jogadas",
 			"quantidade de cadeiras puladas",
 			"nivel hard(ir pra fraça sem upgrade)", "Sem trapacear",
-			"Nada de molesa", "Camiseta Confortavel", };
+			"Nada de moleza", "Camiseta Confortavel", };
 
 	public Frame() {
 		super("Super Jumper");
@@ -81,7 +84,7 @@ public class Frame extends JFrame {
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		JPanel dataPanel = new JPanel();
-		JPanel resetUpgradesPanel = new JPanel();
+		JPanel resetUpgradePanel = new JPanel();
 		JPanel achievementPanel = new JPanel();
 		JPanel achievementSideUpPanel = new JPanel();
 		JPanel achievementSideDownPanel = new JPanel();
@@ -142,7 +145,7 @@ public class Frame extends JFrame {
 		});
 
 		JScrollPane upgradeScrollPane = new JScrollPane(upgradePanel);
-		JScrollPane resetScrollPane = new JScrollPane(resetUpgradesPanel);
+		JScrollPane resetScrollPane = new JScrollPane(resetUpgradePanel);
 
 		upgradeScrollPane.setBackground(Color.RED);
 		upgradeScrollPane.setVerticalScrollBarPolicy(
@@ -152,11 +155,10 @@ public class Frame extends JFrame {
 
 		upgradePanel.setLayout(null);
 		upgradePanel.setPreferredSize(new Dimension(510, 8 * 50));
-		// resetUpgrades.setPreferredSize(new Dimension(510, 8 * 50));
 		clickUpgradePanel.setLayout(
 				new BoxLayout(clickUpgradePanel, BoxLayout.PAGE_AXIS));
 		dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.PAGE_AXIS));
-		resetUpgradesPanel.setLayout(null);
+		resetUpgradePanel.setLayout(null);
 		sideUpPanel.setLayout(new GridLayout(1, 2));
 		buttonPanel.setLayout(new GridLayout(1, 1));
 		achievementPanel.setLayout(new GridLayout(2, 1));
@@ -166,7 +168,7 @@ public class Frame extends JFrame {
 		upgradePanel.setBackground(Color.BLACK);
 		sideUpPanel.setBackground(Color.WHITE);
 		clickUpgradePanel.setBackground(Color.BLACK);
-		resetUpgradesPanel.setBackground(Color.BLACK);
+		resetUpgradePanel.setBackground(Color.BLACK);
 
 		sideUpPanel.add(dataPanel);
 		sideUpPanel.add(buttonPanel);
@@ -200,6 +202,11 @@ public class Frame extends JFrame {
 		upgradeLabel.setAlignmentX(LEFT_ALIGNMENT);
 		upgradeLabel.setAlignmentY(TOP_ALIGNMENT);
 		dataPanel.add(upgradeLabel);
+
+		coinResetLabel = new JLabel("Cafés: " + clicker.getResetCoin());
+		coinResetLabel.setAlignmentX(LEFT_ALIGNMENT);
+		coinResetLabel.setAlignmentY(TOP_ALIGNMENT);
+		dataPanel.add(coinResetLabel);
 
 		dpsLabel = new JLabel(
 				"APS(Artigos per second): " + apsFormat.format(dps));
@@ -301,7 +308,7 @@ public class Frame extends JFrame {
 		// TODO Botão Pacito
 		Upgrade[] upgradesPacito = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
-			upgradesPacito[j] = new Upgrade(clicker, j + 1, 10000);
+			upgradesPacito[j] = new Upgrade(clicker, j + 1, 10000/diminutiveTime);
 		}
 
 		Timer timePacito = new Timer();
@@ -327,7 +334,8 @@ public class Frame extends JFrame {
 							clicker.accumulate(1);
 						}
 					}, delay, delay);
-					dps += 0.1;
+					dps += 0.1 * diminutiveTime;
+					auxCoinReset += 1.0;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.pacito == upgradesPacito.length - 1) {
 						buttonsPacito[this.pacito].setEnabled(false);
@@ -346,7 +354,7 @@ public class Frame extends JFrame {
 		// TODO Botão Artigo
 		Upgrade[] upgradesArtigo = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
-			upgradesArtigo[j] = new Upgrade(clicker, j + 1, 10000);
+			upgradesArtigo[j] = new Upgrade(clicker, j + 1, 10000/diminutiveTime);
 		}
 
 		Timer timeArtigo = new Timer();
@@ -372,7 +380,8 @@ public class Frame extends JFrame {
 							clicker.accumulate(1);
 						}
 					}, delay, delay);
-					dps += 0.1;
+					dps += 0.1 * diminutiveTime;
+					auxCoinReset += 1.1;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.artigo == upgradesArtigo.length - 1) {
 						buttonsArtigo[this.artigo].setEnabled(false);
@@ -418,6 +427,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					dps += 1;
+					auxCoinReset += 1.2;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.gifs == upgradesGifs.length - 1) {
 						buttonsGifs[this.gifs].setEnabled(false);
@@ -463,6 +473,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					dps += 5;
+					auxCoinReset += 1.3;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.pedia == upgradesPedia.length - 1) {
 						buttonsPedia[this.pedia].setEnabled(false);
@@ -508,6 +519,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					dps += 10;
+					auxCoinReset += 1.4;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.processos == upgradesProcessos.length - 1) {
 						buttonsProcessos[this.processos].setEnabled(false);
@@ -553,6 +565,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					dps += 20;
+					auxCoinReset += 1.5;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.sala == upgradesSala.length - 1) {
 						buttonsSala[this.sala].setEnabled(false);
@@ -598,6 +611,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					dps += 30;
+					auxCoinReset += 1.6;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.modem == upgradesModem.length - 1) {
 						buttonsModem[this.modem].setEnabled(false);
@@ -643,6 +657,7 @@ public class Frame extends JFrame {
 						}
 					}, delay, delay);
 					dps += 40;
+					auxCoinReset += 1.7;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
 					if (this.historia == upgradesHistoria.length - 1) {
 						buttonsHistoria[this.historia].setEnabled(false);
@@ -660,12 +675,12 @@ public class Frame extends JFrame {
 
 		// TODO Fim da criação dos botão de upgrade de Auto-click
 
-		upgradesClick = new Upgrade[QTDUPGRADE];
+		Upgrade[] upgradesClick = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesClick[j] = new Upgrade(clicker, j + 1, 1000);
 		}
 
-		// TODO Botão aumentar quantidade de cadeiras
+		// TODO Botão aumentar quantidade de artigos por click
 		JButton[] buttonsClick = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			Upgrade upgradeMulti = upgradesClick[j];
@@ -673,7 +688,6 @@ public class Frame extends JFrame {
 					"Aumentar quantidade de cadeiras (%d processos)",
 					(custoPadrao * upgradeMulti.getCost())));
 			JButton btnUpgradeClick = buttonsClick[j];
-			btnUpgradeClick.setSize(100, 100);
 			btnUpgradeClick.setVisible(false);
 			btnUpgradeClick.setAlignmentX(LEFT_ALIGNMENT);
 			clickUpgradePanel.add(btnUpgradeClick);
@@ -682,6 +696,7 @@ public class Frame extends JFrame {
 				if (clicker.getAccumulate() >= custo) {
 					btnUpgradeClick.setEnabled(true);
 					upgrade.upgradeClick();
+					auxCoinReset += 1.0;
 					upgradeClick.setText(
 							"Upgrade Click: " + (upgrade.getMulti() - 1));
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
@@ -701,28 +716,82 @@ public class Frame extends JFrame {
 		}
 		buttonsClick[0].setVisible(true);
 
+		Upgrade[] upgradesTempo = new Upgrade[QTDUPGRADE];
+		for (int j = 0; j < QTDUPGRADE; j++) {
+			upgradesTempo[j] = new Upgrade(clicker, j + 1);
+		}
+
+		// TODO Botão aumentar quantidade de artigos por click
+		JButton[] buttonsTempo = new JButton[QTDUPGRADE];
+		for (int j = 0; j < QTDUPGRADE; j++) {
+			Upgrade upgradeTempo = upgradesTempo[j];
+			buttonsTempo[j] = new JButton(String.format(
+					"Aumentar quantidade de cadeiras (%d processos)",
+					(custoPadrao * upgradeTempo.getCost())));
+			JButton btnUpgradeClick = buttonsTempo[j];
+			btnUpgradeClick.setVisible(false);
+			btnUpgradeClick.setAlignmentX(LEFT_ALIGNMENT);
+			btnUpgradeClick.setBounds(410, espacamento, 100, altura);
+			resetUpgradePanel.add(btnUpgradeClick);
+			btnUpgradeClick.addActionListener((e) -> {
+				int custo = custoPadrao * upgradeTempo.getCost();
+				if (clicker.getResetCoin() >= custo) {
+					clicker.setResetCoin(clicker.getResetCoin() - custo);
+					coinResetLabel.setText("Cafés: " + clicker.getResetCoin());
+					diminutiveTime += 1; 
+					btnUpgradeClick.setEnabled(true);
+					auxCoinReset += 1.0;
+					if (this.tempo == upgradesTempo.length - 1) {
+						buttonsTempo[this.tempo].setEnabled(false);
+					} else {
+						buttonsTempo[this.tempo].setVisible(false);
+						buttonsTempo[this.tempo + 1].setVisible(true);
+						this.tempo++;
+					}
+				} else
+					JOptionPane.showMessageDialog(null,
+							"Você não possui café suficiente");
+			});
+		}
+		buttonsTempo[0].setVisible(true);
+
 		JButton reset = new JButton("Reset");
 		reset.setBounds(410, 0, 100, altura);
 		reset.setVisible(true);
-		resetUpgradesPanel.add(reset);
+		reset.setEnabled(false);
+		resetUpgradePanel.add(reset);
 		reset.addActionListener((e) -> {
-			if (clicker.getAccumulate() > 100 ) {
+			if (clicker.getAccumulate() > 100000) {
 				timeHistoria.cancel();
+				timeHistoria.purge();
 				timeArtigo.cancel();
+				timeArtigo.purge();
 				timeGifs.cancel();
+				timeGifs.purge();
 				timeModem.cancel();
+				timeModem.purge();
 				timePacito.cancel();
+				timePacito.purge();
 				timePedia.cancel();
+				timePedia.purge();
 				timeProcessos.cancel();
+				timeProcessos.purge();
 				timeSala.cancel();
+				timeSala.purge();
+				clicker.setResetCoin((int) (auxCoinReset * 5) / 100 + ((clicker.getAccumulate() / 1000) + 1));
+				coinResetLabel.setText("Cafés: " + clicker.getResetCoin());
 				clicker.setAccumulate(0);
 				clicker.setLevel(0);
 				upgrade.setMulti(1);
-				JOptionPane.showMessageDialog(null,"Reset realizado com sucesso");
-//				for (JButton btn : buttonsClick) {
-//					btn.setEnabled(false);
-//					btn.setVisible(false);
-//				}
+				dps = 0;
+				auxCoinReset = 0;
+				upgradeLabel.setText("Upgrade: 0");
+				JOptionPane.showMessageDialog(null,
+						"Reset realizado com sucesso");
+				// for (JButton btn : buttonsClick) {
+				// btn.setEnabled(false);
+				// btn.setVisible(false);
+				// }
 				for (JButton btn : buttonsArtigo) {
 					btn.setEnabled(false);
 					btn.setVisible(false);
@@ -755,12 +824,12 @@ public class Frame extends JFrame {
 					btn.setEnabled(false);
 					btn.setVisible(false);
 				}
-// TODO Separação
+				// TODO Separação
 
-//				for (JButton btn : buttonsClick) {
-//					btn.setEnabled(true);
-//					btn.setVisible(true);
-//				}
+				// for (JButton btn : buttonsClick) {
+				// btn.setEnabled(true);
+				// btn.setVisible(true);
+				// }
 				for (JButton btn : buttonsArtigo) {
 					btn.setEnabled(true);
 					btn.setVisible(true);
@@ -808,6 +877,9 @@ public class Frame extends JFrame {
 				accumulatorLabel.setText("Artigos: " + clicker.getAccumulate());
 				dpsLabel.setText(
 						"APS(Artigos per second): " + apsFormat.format(dps));
+				if (clicker.getAccumulate() >= 100000)
+					reset.setEnabled(true);
+
 				if (clicker.getAccumulate() >= 10000 + (q * 20000)) {
 					levelLabel.setText(
 							"Level: " + clicker.nivel(clicker.getAccumulate()));
@@ -832,56 +904,6 @@ public class Frame extends JFrame {
 
 			}
 		}, 0, TEMPO * 100);
-
-		// multCompras1 = new JButton("1x");
-		// multCompras1.setEnabled(false);
-		// multCompras1.setSize(10, 10);
-		// dadosPanel.add(multCompras1);
-		// multCompras1.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// custoPadrao = 1;
-		// multicompras = 1;
-		// multCompras1.setEnabled(false);
-		// multCompras10.setEnabled(true);
-		// multCompras100.setEnabled(true);
-		//
-		// }
-		// });
-		// multCompras10 = new JButton("10x");
-		// multCompras10.setSize(10, 10);
-		// dadosPanel.add(multCompras10);
-		// multCompras10.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// custoPadrao = 10;
-		// multicompras = 10;
-		// multCompras1.setEnabled(true);
-		// multCompras10.setEnabled(false);
-		// multCompras100.setEnabled(true);
-		// }
-		// });
-		// multCompras100 = new JButton("100x");
-		// multCompras100.setSize(10, 10);
-		// dadosPanel.add(multCompras100);
-		// multCompras100.addActionListener(new ActionListener() {
-		//
-		// @Override
-		// public void actionPerformed(ActionEvent e) {
-		// custoPadrao = 100;
-		// multicompras = 100;
-		// multCompras1.setEnabled(true);
-		// multCompras10.setEnabled(true);
-		// multCompras100.setEnabled(false);
-		// }
-		// });
-		//
-		// ButtonGroup multiplicadoresCompra = new ButtonGroup();
-		// multiplicadoresCompra.add(multCompras1);
-		// multiplicadoresCompra.add(multCompras10);
-		// multiplicadoresCompra.add(multCompras100);
 
 	}
 
