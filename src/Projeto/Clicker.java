@@ -6,8 +6,8 @@ public class Clicker {
 	private int accumulator;
 
 	private final String[] namesLevel = { "UFSC", "USP", "UNAM", "Harvard",
-			"MIT", "Global", "Via Lactea", "Universo",
-			"University of Toulouse, França", };
+			"MIT", "Global", "Milky Way", "Universe",
+			"University of Toulouse, France", };
 	private String level;
 	private int upLevel = 0;
 	private int resetCoin = 0;
@@ -61,51 +61,51 @@ public class Clicker {
 		String labelLevel = getLevel(); // UFSC
 		switch (accumulator) {
 		case 20000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
 			labelLevel = "Level: " + getLevel(); // USP
 			break;
 
 		case 40000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
 			labelLevel = "Level: " + getLevel();// UNAM
 			break;
 
 		case 60000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
 			labelLevel = "Level: " + getLevel(); // Harvard
 			break;
 
 		case 80000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
 			labelLevel = "Level: " + getLevel(); // MIT
 			break;
 
 		case 100000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
 			labelLevel = "Level: " + getLevel(); // Global
 			break;
 
 		case 120000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
-			labelLevel = "Level: " + getLevel(); // Via Lactea
+			labelLevel = "Level: " + getLevel(); // Milky Way
 			break;
 
 		case 140000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
-			labelLevel = "Level: " + getLevel(); // Universo
+			labelLevel = "Level: " + getLevel(); // Universe
 			break;
 
 		case 160000:
-			JOptionPane.showMessageDialog(null, "Passou de nivel");
+			JOptionPane.showMessageDialog(null, "Level up");
 			levelUp();
-			labelLevel = "Level: " + getLevel(); // França
+			labelLevel = "Level: " + getLevel(); // France
 			break;
 
 		}
