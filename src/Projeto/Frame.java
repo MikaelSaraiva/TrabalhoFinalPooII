@@ -3,7 +3,6 @@ package Projeto;
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.Graphics;
 import java.awt.GridLayout;
 import java.text.DecimalFormat;
 import java.util.Timer;
@@ -22,7 +21,6 @@ import javax.swing.JMenuItem;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
-
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
@@ -61,7 +59,6 @@ public class Frame extends JFrame {
 	private int custoPadrao = 1;
 	private int diminutiveTime = 1;
 	private double auxCoinReset = 0.0;
-	private boolean sweetch = true;
 	private float dps = 0;
 	private final int QTDUPGRADE = 10;
 	private final int TEMPO = 1;
@@ -81,7 +78,7 @@ public class Frame extends JFrame {
 		JPanel clickUpgradePanel = new JPanel();
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		JPanel dataPanel = new JPanel();
+		ImagePanel dataPanel = new ImagePanel(new ImageIcon("Button.gif").getImage());
 		JPanel resetUpgradePanel = new JPanel();
 		JPanel achievementPanel = new JPanel();
 		JPanel achievementSideUpPanel = new JPanel();
@@ -206,7 +203,6 @@ public class Frame extends JFrame {
 				"APS(Articles per second): " + apsFormat.format(dps));
 		dataPanel.add(dpsLabel);
 
-		Icon bedroom = new ImageIcon(getClass().getResource("bedroom.png"));
 		//Creating labels for upgrading the auto-click
 
 		int altura = 40;
