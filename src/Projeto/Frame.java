@@ -78,7 +78,7 @@ public class Frame extends JFrame {
 		JPanel clickUpgradePanel = new JPanel();
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		ImagePanel dataPanel = new ImagePanel(new ImageIcon("Button.gif").getImage());
+		ImagePanel dataPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Button.gif")).getImage());
 		JPanel resetUpgradePanel = new JPanel();
 		JPanel achievementPanel = new JPanel();
 		JPanel achievementSideUpPanel = new JPanel();
@@ -102,7 +102,7 @@ public class Frame extends JFrame {
 		menu.add(exit);
 
 		dialogAchievement.add(achievementPanel);
-		achievementSideUpPanel.setSize(400, 100);
+		achievementSideUpPanel.setSize(400, 300);
 		achievementSideDownPanel.setSize(400, 300);
 		achievementPanel.add(achievementSideUpPanel);
 		achievementPanel.add(achievementSideDownPanel);
