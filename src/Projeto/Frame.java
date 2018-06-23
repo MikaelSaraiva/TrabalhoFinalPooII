@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
 import java.awt.GridLayout;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.text.DecimalFormat;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -24,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
-public class Frame extends JFrame {
+public class Frame extends JFrame implements Serializable{
 
 	private static final long serialVersionUID = 1L;
 	private Clicker clicker;
@@ -67,22 +70,25 @@ public class Frame extends JFrame {
 			"articles writed",
 			"Hardcore", "No Cheating",
 			"No fooling around", "Confortable shirt", };
-
+	private ObjectInputStream input;
+	private ObjectOutputStream output;
+	
+	
 	public Frame() {
 		super("Super Jumper");
 
 		clicker = new Clicker();
 		upgrade = new Upgrade();
 
-		JPanel upgradePanel = new JPanel();
+		ImagePanel upgradePanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Logo.png")).getImage());
 		JPanel clickUpgradePanel = new JPanel();
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		ImagePanel dataPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Button.gif")).getImage());
+		ImagePanel dataPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("bedroom.png")).getImage());
 		JPanel resetUpgradePanel = new JPanel();
 		JPanel achievementPanel = new JPanel();
-		JPanel achievementSideUpPanel = new JPanel();
-		JPanel achievementSideDownPanel = new JPanel();
+		ImagePanel achievementSideUpPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("CTC.png")).getImage());
+		ImagePanel achievementSideDownPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("achievement.png")).getImage());
 		JButton[] buttonAchievement;
 		JMenu menu = new JMenu("File");
 		JMenu achievementMenu = new JMenu("Achievements");
@@ -156,7 +162,6 @@ public class Frame extends JFrame {
 		achievementSideUpPanel.setLayout(new FlowLayout());
 		achievementSideDownPanel.setLayout(new GridLayout(3, 2, 5, 5));
 
-		upgradePanel.setBackground(Color.BLACK);
 		sideUpPanel.setBackground(Color.WHITE);
 		clickUpgradePanel.setBackground(Color.BLACK);
 		resetUpgradePanel.setBackground(Color.BLACK);
@@ -210,9 +215,9 @@ public class Frame extends JFrame {
 		int espacamento = altura + 10;
 
 		pacitoLabel = new JLabel(
-				"<html>Learning to write articles: It needs to be ABNT,but how do we do that again?  <html>");
+				"<html>Learning to write articles: Lots of tutorials to reach ABNT <html>");
 		pacitoLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("writing.png")));
 		pacitoLabel.setHorizontalTextPosition(JLabel.CENTER);
 		pacitoLabel.setBounds(0, 0, largura, altura);
 		upgradePanel.add(pacitoLabel);
@@ -220,7 +225,7 @@ public class Frame extends JFrame {
 		artigosLabel = new JLabel(
 				"<html>Articles: Students creating the future, but going insane<html>");
 		artigosLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("article.png")));
 		artigosLabel.setHorizontalTextPosition(JLabel.CENTER);
 		artigosLabel.setBounds(0, espacamento, largura, altura);
 		upgradePanel.add(artigosLabel);
@@ -228,7 +233,7 @@ public class Frame extends JFrame {
 		gifsLabel = new JLabel(
 				"<html>Gifs: Students cheating and copying gifs from seniors<html>");
 		gifsLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("gifs.gif")));
 		gifsLabel.setHorizontalTextPosition(JLabel.CENTER);
 		gifsLabel.setBounds(0, espacamento * 2, largura, altura);
 		upgradePanel.add(gifsLabel);
@@ -236,7 +241,7 @@ public class Frame extends JFrame {
 		pediaLabel = new JLabel(
 				"<html>Articlepedia: Updating and verifying it isn't down<html>");
 		pediaLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("articlepedia.png")));
 		pediaLabel.setHorizontalTextPosition(JLabel.CENTER);
 		pediaLabel.setBounds(0, espacamento * 3, largura, altura);
 		upgradePanel.add(pediaLabel);
@@ -244,7 +249,7 @@ public class Frame extends JFrame {
 		processosLabel = new JLabel(
 				"<html>Trial: Learning about not letting anyone plagiarize<html>");
 		processosLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("trials.png")));
 		processosLabel.setHorizontalTextPosition(JLabel.CENTER);
 		processosLabel.setBounds(0, espacamento * 4, largura, altura);
 		upgradePanel.add(processosLabel);
@@ -252,7 +257,7 @@ public class Frame extends JFrame {
 		salaLabel = new JLabel(
 				"<html>Chilling in the sleeping net: We need a break<html>");
 		salaLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("sleeping.png")));
 		salaLabel.setHorizontalTextPosition(JLabel.CENTER);
 		salaLabel.setBounds(0, espacamento * 5, largura, altura);
 		upgradePanel.add(salaLabel);
@@ -260,7 +265,7 @@ public class Frame extends JFrame {
 		modemLabel = new JLabel(
 				"<html>Modem: Meeting it's properties and it's creator<html>");
 		modemLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("wifi.png")));
 		modemLabel.setHorizontalTextPosition(JLabel.CENTER);
 		modemLabel.setBounds(0, espacamento * 6, largura, altura);
 		upgradePanel.add(modemLabel);
