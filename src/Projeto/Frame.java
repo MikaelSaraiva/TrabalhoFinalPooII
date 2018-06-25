@@ -273,7 +273,7 @@ public class Frame extends JFrame implements Serializable{
 		historiaLabel = new JLabel(
 				"<html>Story time: Everyone loves knowing how the teacher got stuck in traffic yesterday<html>");
 		historiaLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("branco.jpg")));
+				new ImageIcon(this.getClass().getResource("story.png")));
 		historiaLabel.setHorizontalTextPosition(JLabel.CENTER);
 		historiaLabel.setBounds(0, espacamento * 7, largura, altura);
 		upgradePanel.add(historiaLabel);
