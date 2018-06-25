@@ -1,10 +1,10 @@
 Arrumar:
--Reset
+-Reset: Criar/Usar existente classe com metodos para criar os timers e nela arrumar o reset usando Timer.cancel(); 
 -Pixel Art
--Descrição dos upgrades
--Preços de upgrades
+-Descriï¿½ï¿½o dos upgrades
+-Preï¿½os de upgrades
 -Setup de achievements
 -Save
--Herança/Abstract/Interface
+-Heranï¿½a/Abstract/Interface
 -Exception
--Padrão de projeto
+-Padrï¿½o de projeto

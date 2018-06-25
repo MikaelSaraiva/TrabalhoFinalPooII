@@ -64,9 +64,9 @@ public class Frame extends JFrame {
 	private final int TEMPO = 1;
 	private final int ACHIEVEMENT = 7;
 	private final String[] TEXTACHI = { "Exchanging modem/bike", "hours played",
-			"articles writed",
-			"Hardcore", "No Cheating",
-			"No fooling around", "Confortable shirt", };
+			"articles writed", "Hardcore", "No Cheating", "No fooling around",
+			"Confortable shirt", };
+	boolean timerHistoria = false;
 
 	public Frame() {
 		super("Super Jumper");
@@ -78,7 +78,9 @@ public class Frame extends JFrame {
 		JPanel clickUpgradePanel = new JPanel();
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-		ImagePanel dataPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Button.gif")).getImage());
+		ImagePanel dataPanel = new ImagePanel(
+				new ImageIcon(this.getClass().getResource("bedroom.png"))
+						.getImage());
 		JPanel resetUpgradePanel = new JPanel();
 		JPanel achievementPanel = new JPanel();
 		JPanel achievementSideUpPanel = new JPanel();
@@ -93,7 +95,6 @@ public class Frame extends JFrame {
 		JMenuItem about = new JMenuItem("About");
 		JMenuItem itemAchievement = new JMenuItem("Achievements");
 		JDialog dialogAchievement = new JDialog(this, "Achievements", true);
-
 		DecimalFormat apsFormat = new DecimalFormat("0.00");
 
 		menu.add(changeUser);
@@ -120,18 +121,18 @@ public class Frame extends JFrame {
 			dialogAchievement.setVisible(true);
 		});
 
-		//Quit button exit
+		// Quit button exit
 		exit.addActionListener((e) -> {
 			System.exit(0);
 		});
-		
-		//About button text
+
+		// About button text
 		about.addActionListener((e) -> {
 			JOptionPane.showMessageDialog(null,
 					"Clicker game about students producing articles. Developed by Bóreas e Marki Cast .\n " +
-					"The game shows our main character , CBW, making articles in his computer \n " +
-					"to help mankind with his incredible knowledge. With more articles, the stronger he gets \n" +
-					"and the farther he goes.",
+							"The game shows our main character , CBW, making articles in his computer \n " +
+							"to help mankind with his incredible knowledge. With more articles, the stronger he gets \n" +
+							"and the farther he goes.",
 					"About", JOptionPane.PLAIN_MESSAGE);
 
 		});
@@ -203,7 +204,7 @@ public class Frame extends JFrame {
 				"APS(Articles per second): " + apsFormat.format(dps));
 		dataPanel.add(dpsLabel);
 
-		//Creating labels for upgrading the auto-click
+		// Creating labels for upgrading the auto-click
 
 		int altura = 40;
 		int largura = 375;
@@ -285,9 +286,9 @@ public class Frame extends JFrame {
 		buttonAccumulator.addActionListener((e) -> {
 			clicker.accumulate(upgrade.getMulti());
 		});
-		
-		//Achievement setup
-		
+
+		// Achievement setup
+
 		buttonAchievement = new JButton[ACHIEVEMENT];
 		for (int a = 0; a < ACHIEVEMENT; a++) {
 			buttonAchievement[a] = new JButton(TEXTACHI[a]);
@@ -301,7 +302,8 @@ public class Frame extends JFrame {
 		// First upgrade: Creating Articles
 		Upgrade[] upgradesPacito = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
-			upgradesPacito[j] = new Upgrade(clicker, j + 1, 10000/diminutiveTime);
+			upgradesPacito[j] = new Upgrade(clicker, j + 1,
+					10000 / diminutiveTime);
 		}
 
 		Timer timePacito = new Timer();
@@ -338,8 +340,7 @@ public class Frame extends JFrame {
 						this.pacito++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsPacito[0].setVisible(true);
@@ -347,7 +348,8 @@ public class Frame extends JFrame {
 		// Writing Articles
 		Upgrade[] upgradesArtigo = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
-			upgradesArtigo[j] = new Upgrade(clicker, j + 1, 10000/diminutiveTime);
+			upgradesArtigo[j] = new Upgrade(clicker, j + 1,
+					10000 / diminutiveTime);
 		}
 
 		Timer timeArtigo = new Timer();
@@ -384,8 +386,7 @@ public class Frame extends JFrame {
 						this.artigo++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsArtigo[0].setVisible(true);
@@ -430,8 +431,7 @@ public class Frame extends JFrame {
 						this.gifs++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsGifs[0].setVisible(true);
@@ -476,8 +476,7 @@ public class Frame extends JFrame {
 						this.pedia++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsPedia[0].setVisible(true);
@@ -522,8 +521,7 @@ public class Frame extends JFrame {
 						this.processos++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsProcessos[0].setVisible(true);
@@ -568,8 +566,7 @@ public class Frame extends JFrame {
 						this.sala++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsSala[0].setVisible(true);
@@ -614,8 +611,7 @@ public class Frame extends JFrame {
 						this.modem++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsModem[0].setVisible(true);
@@ -640,6 +636,7 @@ public class Frame extends JFrame {
 			btnUpgrade.addActionListener((e) -> {
 				int custo = custoPadrao * upgrade.getCost();
 				if (clicker.getAccumulate() >= custo) {
+					timerHistoria = true;
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
@@ -660,14 +657,13 @@ public class Frame extends JFrame {
 						this.historia++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsHistoria[0].setVisible(true);
 
-		//Click upgrade creation
-		
+		// Click upgrade creation
+
 		Upgrade[] upgradesClick = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesClick[j] = new Upgrade(clicker, j + 1, 1000);
@@ -677,9 +673,9 @@ public class Frame extends JFrame {
 		JButton[] buttonsClick = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			Upgrade upgradeMulti = upgradesClick[j];
-			buttonsClick[j] = new JButton(String.format(
-					"Writing more articles (%d Articles)",
-					(custoPadrao * upgradeMulti.getCost())));
+			buttonsClick[j] = new JButton(
+					String.format("Writing more articles (%d Articles)",
+							(custoPadrao * upgradeMulti.getCost())));
 			JButton btnUpgradeClick = buttonsClick[j];
 			btnUpgradeClick.setVisible(false);
 			btnUpgradeClick.setAlignmentX(LEFT_ALIGNMENT);
@@ -703,8 +699,7 @@ public class Frame extends JFrame {
 						this.click++;
 					}
 				} else
-					JOptionPane.showMessageDialog(null,
-							"Not enough articles");
+					JOptionPane.showMessageDialog(null, "Not enough articles");
 			});
 		}
 		buttonsClick[0].setVisible(true);
@@ -717,9 +712,9 @@ public class Frame extends JFrame {
 		JButton[] buttonsTempo = new JButton[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			Upgrade upgradeTempo = upgradesTempo[j];
-			buttonsTempo[j] = new JButton(String.format(
-					"Writing more articles (%d processos)",
-					(custoPadrao * upgradeTempo.getCost())));
+			buttonsTempo[j] = new JButton(
+					String.format("Writing more articles (%d processos)",
+							(custoPadrao * upgradeTempo.getCost())));
 			JButton btnUpgradeClick = buttonsTempo[j];
 			btnUpgradeClick.setVisible(false);
 			btnUpgradeClick.setAlignmentX(LEFT_ALIGNMENT);
@@ -730,7 +725,7 @@ public class Frame extends JFrame {
 				if (clicker.getResetCoin() >= custo) {
 					clicker.setResetCoin(clicker.getResetCoin() - custo);
 					coinResetLabel.setText("Coffes: " + clicker.getResetCoin());
-					diminutiveTime += 1; 
+					diminutiveTime += 1;
 					btnUpgradeClick.setEnabled(true);
 					auxCoinReset += 1.0;
 					if (this.tempo == upgradesTempo.length - 1) {
@@ -753,24 +748,19 @@ public class Frame extends JFrame {
 		reset.setEnabled(false);
 		resetUpgradePanel.add(reset);
 		reset.addActionListener((e) -> {
-			if (clicker.getAccumulate() > 100000) {
-				timeHistoria.cancel();
-				timeHistoria.purge();
+			if (clicker.getAccumulate() > 100) {
+				timerHistoria = false;
+				// timeHistoria.cancel();
 				timeArtigo.cancel();
-				timeArtigo.purge();
 				timeGifs.cancel();
-				timeGifs.purge();
 				timeModem.cancel();
-				timeModem.purge();
 				timePacito.cancel();
-				timePacito.purge();
 				timePedia.cancel();
-				timePedia.purge();
 				timeProcessos.cancel();
-				timeProcessos.purge();
 				timeSala.cancel();
-				timeSala.purge();
-				clicker.setResetCoin((int) (auxCoinReset * 5) / 100 + ((clicker.getAccumulate() / 1000) + 1));
+				reset.setEnabled(false);
+				clicker.setResetCoin((int) (auxCoinReset * 5) / 100 +
+						((clicker.getAccumulate() / 1000) + 1));
 				coinResetLabel.setText("Coffes: " + clicker.getResetCoin());
 				clicker.setAccumulate(0);
 				clicker.setLevel(0);
@@ -778,8 +768,7 @@ public class Frame extends JFrame {
 				dps = 0;
 				auxCoinReset = 0;
 				upgradeLabel.setText("Upgrade: 0");
-				JOptionPane.showMessageDialog(null,
-						"Reseted!");
+				JOptionPane.showMessageDialog(null, "Reseted!");
 				// for (JButton btn : buttonsClick) {
 				// btn.setEnabled(false);
 				// btn.setVisible(false);
@@ -857,8 +846,7 @@ public class Frame extends JFrame {
 				buttonsClick[0].setEnabled(true);
 				buttonsClick[0].setVisible(true);
 			} else
-				JOptionPane.showMessageDialog(null,
-						"Not enough articles yet");
+				JOptionPane.showMessageDialog(null, "Not enough articles yet");
 		});
 
 		// Text updating
@@ -866,10 +854,11 @@ public class Frame extends JFrame {
 		timeUpdater.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				accumulatorLabel.setText("Articles: " + clicker.getAccumulate());
+				accumulatorLabel
+						.setText("Articles: " + clicker.getAccumulate());
 				dpsLabel.setText(
 						"APS(Artigos per second): " + apsFormat.format(dps));
-				if (clicker.getAccumulate() >= 100000)
+				if (clicker.getAccumulate() >= 100)
 					reset.setEnabled(true);
 
 				if (clicker.getAccumulate() >= 10000 + (q * 20000)) {
