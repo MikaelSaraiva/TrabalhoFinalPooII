@@ -81,11 +81,11 @@ public class Frame extends JFrame implements Serializable{
 		upgrade = new Upgrade();
 
 		ImagePanel upgradePanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Logo.png")).getImage());
-		JPanel clickUpgradePanel = new JPanel();
+		ImagePanel clickUpgradePanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Logo.png")).getImage());
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		ImagePanel dataPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("bedroom.png")).getImage());
-		JPanel resetUpgradePanel = new JPanel();
+		ImagePanel resetUpgradePanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Logo.png")).getImage());
 		JPanel achievementPanel = new JPanel();
 		ImagePanel achievementSideUpPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("CTC.png")).getImage());
 		ImagePanel achievementSideDownPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("achievement.png")).getImage());
