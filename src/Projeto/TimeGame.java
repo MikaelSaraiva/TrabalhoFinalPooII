@@ -3,20 +3,17 @@ package Projeto;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class Reset {
+public class TimeGame {
 
-	private Clicker clicker = Clicker.getInstance();
 	private Timer time = new Timer();
 
-	public Reset(Clicker clicker) {
-		this.clicker = clicker;
+	public TimeGame() {
 	}
 
-	public void timer(long delay) {
+	public void timer(long delay, Clicker clicker) {
 		time.scheduleAtFixedRate(new TimerTask() {
 			@Override
 			public void run() {
-				System.out.println("OI");
 				clicker.accumulate(1);
 			}
 		}, delay, delay);

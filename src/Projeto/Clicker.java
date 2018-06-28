@@ -4,17 +4,8 @@ import javax.swing.JOptionPane;
 
 public class Clicker {
 
-	private static Clicker instance;
+	public Clicker() {
 
-	protected Clicker() {
-
-	}
-
-	public static synchronized Clicker getInstance() {
-		if (instance == null) {
-			instance = new Clicker();
-		}
-		return instance;
 	}
 
 	private int accumulator;

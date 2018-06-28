@@ -72,13 +72,19 @@ public class Frame extends JFrame implements Serializable {
 	boolean timerHistoria = false;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private Timer timeHistoria;
-	private Reset resetGame = new Reset(clicker);
+	private TimeGame timeHistoria = new TimeGame();
+	private TimeGame timeArtigo = new TimeGame();
+	private TimeGame timePacito = new TimeGame();
+	private TimeGame timeModem = new TimeGame();
+	private TimeGame timeGif = new TimeGame();
+	private TimeGame timePedia = new TimeGame();
+	private TimeGame timeProcessos = new TimeGame();
+	private TimeGame timeSala = new TimeGame();
 
 	public Frame() {
 		super("Super Jumper");
 
-		clicker = Clicker.getInstance();
+		clicker = new Clicker();
 		upgrade = new Upgrade();
 
 		ImagePanel upgradePanel = new ImagePanel(
@@ -320,7 +326,6 @@ public class Frame extends JFrame implements Serializable {
 					10000 / diminutiveTime);
 		}
 
-		Timer timePacito = new Timer();
 		JButton[] buttonsPacito = new JButton[QTDUPGRADE];
 		for (int i = 0; i < QTDUPGRADE; i++) {
 			Upgrade upgrade = upgradesPacito[i];
@@ -337,12 +342,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timePacito.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timePacito.timer(delay, clicker);
 					dps += 0.1 * diminutiveTime;
 					auxCoinReset += 1.0;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -366,7 +366,6 @@ public class Frame extends JFrame implements Serializable {
 					10000 / diminutiveTime);
 		}
 
-		Timer timeArtigo = new Timer();
 		JButton[] buttonsArtigo = new JButton[QTDUPGRADE];
 		for (int i = 0; i < QTDUPGRADE; i++) {
 			Upgrade upgrade = upgradesArtigo[i];
@@ -383,12 +382,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timeArtigo.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timeArtigo.timer(delay, clicker);
 					dps += 0.1 * diminutiveTime;
 					auxCoinReset += 1.1;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -411,7 +405,6 @@ public class Frame extends JFrame implements Serializable {
 			upgradesGifs[j] = new Upgrade(clicker, j + 1, 1000);
 		}
 
-		Timer timeGifs = new Timer();
 		JButton[] buttonsGifs = new JButton[QTDUPGRADE];
 		for (int k = 0; k < QTDUPGRADE; k++) {
 			Upgrade upgrade = upgradesGifs[k];
@@ -428,12 +421,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timeGifs.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timeGif.timer(delay, clicker);
 					dps += 1;
 					auxCoinReset += 1.2;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -456,7 +444,6 @@ public class Frame extends JFrame implements Serializable {
 			upgradesPedia[j] = new Upgrade(clicker, j + 1, 200);
 		}
 
-		Timer timePedia = new Timer();
 		JButton[] buttonsPedia = new JButton[QTDUPGRADE];
 		for (int l = 0; l < QTDUPGRADE; l++) {
 			Upgrade upgrade = upgradesPedia[l];
@@ -473,12 +460,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timePedia.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timePedia.timer(delay, clicker);
 					dps += 5;
 					auxCoinReset += 1.3;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -501,7 +483,6 @@ public class Frame extends JFrame implements Serializable {
 			upgradesProcessos[j] = new Upgrade(clicker, j + 1, 100);
 		}
 
-		Timer timeProcessos = new Timer();
 		JButton[] buttonsProcessos = new JButton[QTDUPGRADE];
 		for (int m = 0; m < QTDUPGRADE; m++) {
 			Upgrade upgrade = upgradesProcessos[m];
@@ -518,12 +499,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timeProcessos.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timeProcessos.timer(delay, clicker);
 					dps += 10;
 					auxCoinReset += 1.4;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -546,7 +522,6 @@ public class Frame extends JFrame implements Serializable {
 			upgradesSala[j] = new Upgrade(clicker, j + 1, 50);
 		}
 
-		Timer timeSala = new Timer();
 		JButton[] buttonsSala = new JButton[QTDUPGRADE];
 		for (int n = 0; n < QTDUPGRADE; n++) {
 			Upgrade upgrade = upgradesSala[n];
@@ -563,12 +538,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timeSala.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timeSala.timer(delay, clicker);
 					dps += 20;
 					auxCoinReset += 1.5;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -591,7 +561,6 @@ public class Frame extends JFrame implements Serializable {
 			upgradesModem[j] = new Upgrade(clicker, j + 1, 33);
 		}
 
-		Timer timeModem = new Timer();
 		JButton[] buttonsModem = new JButton[QTDUPGRADE];
 		for (int o = 0; o < QTDUPGRADE; o++) {
 			Upgrade upgrade = upgradesModem[o];
@@ -608,12 +577,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timeModem.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					timeModem.timer(delay, clicker);
 					dps += 30;
 					auxCoinReset += 1.6;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -636,7 +600,6 @@ public class Frame extends JFrame implements Serializable {
 			upgradesHistoria[j] = new Upgrade(clicker, j + 1, 25);
 		}
 
-//		timeHistoria = new Timer();
 		JButton[] buttonsHistoria = new JButton[QTDUPGRADE];
 		for (int p = 0; p < QTDUPGRADE; p++) {
 			Upgrade upgrade = upgradesHistoria[p];
@@ -654,13 +617,7 @@ public class Frame extends JFrame implements Serializable {
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					resetGame.timer(delay);
-//					timeHistoria.scheduleAtFixedRate(new TimerTask() {
-//						@Override
-//						public void run() {
-//							clicker.accumulate(1);
-//						}
-//					}, delay, delay);
+					timeHistoria.timer(delay, clicker);
 					dps += 40;
 					auxCoinReset += 1.7;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -764,14 +721,14 @@ public class Frame extends JFrame implements Serializable {
 		resetUpgradePanel.add(reset);
 		reset.addActionListener((e) -> {
 			if (clicker.getAccumulate() > 100) {
-				resetGame.cancelTimer();
-				timeArtigo.cancel();
-				timeGifs.cancel();
-				timeModem.cancel();
-				timePacito.cancel();
-				timePedia.cancel();
-				timeProcessos.cancel();
-				timeSala.cancel();
+				timeHistoria.cancelTimer();
+				timeArtigo.cancelTimer();
+				timeGif.cancelTimer();
+				timeModem.cancelTimer();
+				timePacito.cancelTimer();
+				timePedia.cancelTimer();
+				timeProcessos.cancelTimer();
+				timeSala.cancelTimer();
 				reset.setEnabled(false);
 				clicker.setResetCoin((int) (auxCoinReset * 5) / 100 +
 						((clicker.getAccumulate() / 1000) + 1));
