@@ -2,17 +2,21 @@ package Projeto;
 
 import javax.swing.JOptionPane;
 
-public final class Clicker {
-	
-	private static Clicker instance = null;
-	protected Clicker() {}
-	public static Clicker getInstance() {
-		if(instance == null) {
+public class Clicker {
+
+	private static Clicker instance;
+
+	protected Clicker() {
+
+	}
+
+	public static synchronized Clicker getInstance() {
+		if (instance == null) {
 			instance = new Clicker();
 		}
 		return instance;
 	}
-	
+
 	private int accumulator;
 
 	private final String[] namesLevel = { "UFSC", "USP", "UNAM", "Harvard",

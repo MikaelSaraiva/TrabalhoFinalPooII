@@ -48,4 +48,5 @@ public class Upgrade {
 	public void setMulti(int multiplier) {
 		this.multiplier = multiplier;
 	}
+	
 }

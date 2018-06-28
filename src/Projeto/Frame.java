@@ -27,7 +27,7 @@ import javax.swing.JScrollPane;
 import javax.swing.JTabbedPane;
 import javax.swing.SwingConstants;
 
-public class Frame extends JFrame implements Serializable{
+public class Frame extends JFrame implements Serializable {
 
 	private static final long serialVersionUID = 1L;
 	private Clicker clicker;
@@ -67,41 +67,39 @@ public class Frame extends JFrame implements Serializable{
 	private final int TEMPO = 1;
 	private final int ACHIEVEMENT = 7;
 	private final String[] TEXTACHI = { "Exchanging modem/bike", "hours played",
-<<<<<<< HEAD
 			"articles writed", "Hardcore", "No Cheating", "No fooling around",
 			"Confortable shirt", };
 	boolean timerHistoria = false;
-
-=======
-			"articles writed",
-			"Hardcore", "No Cheating",
-			"No fooling around", "Confortable shirt", };
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	
-	
->>>>>>> 4767f496b004f782a90e659e5b8909c303cfb041
+	private Timer timeHistoria;
+	private Reset resetGame = new Reset(clicker);
+
 	public Frame() {
 		super("Super Jumper");
 
-		clicker = new Clicker();
+		clicker = Clicker.getInstance();
 		upgrade = new Upgrade();
 
-		ImagePanel upgradePanel = new ImagePanel(new ImageIcon(this.getClass().getResource("Logo.png")).getImage());
-		JPanel clickUpgradePanel = new JPanel();
+		ImagePanel upgradePanel = new ImagePanel(
+				new ImageIcon(this.getClass().getResource("Logo.png"))
+						.getImage());
+		ImagePanel clickUpgradePanel = new ImagePanel(
+				new ImageIcon(this.getClass().getResource("Logo.png"))
+						.getImage());
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
-<<<<<<< HEAD
 		ImagePanel dataPanel = new ImagePanel(
 				new ImageIcon(this.getClass().getResource("bedroom.png"))
 						.getImage());
-=======
-		ImagePanel dataPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("bedroom.png")).getImage());
->>>>>>> 4767f496b004f782a90e659e5b8909c303cfb041
 		JPanel resetUpgradePanel = new JPanel();
 		JPanel achievementPanel = new JPanel();
-		ImagePanel achievementSideUpPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("CTC.png")).getImage());
-		ImagePanel achievementSideDownPanel = new ImagePanel(new ImageIcon(this.getClass().getResource("achievement.png")).getImage());
+		ImagePanel achievementSideUpPanel = new ImagePanel(
+				new ImageIcon(this.getClass().getResource("CTC.png"))
+						.getImage());
+		ImagePanel achievementSideDownPanel = new ImagePanel(
+				new ImageIcon(this.getClass().getResource("achievement.png"))
+						.getImage());
 		JButton[] buttonAchievement;
 		JMenu menu = new JMenu("File");
 		JMenu achievementMenu = new JMenu("Achievements");
@@ -638,7 +636,7 @@ public class Frame extends JFrame implements Serializable{
 			upgradesHistoria[j] = new Upgrade(clicker, j + 1, 25);
 		}
 
-		Timer timeHistoria = new Timer();
+//		timeHistoria = new Timer();
 		JButton[] buttonsHistoria = new JButton[QTDUPGRADE];
 		for (int p = 0; p < QTDUPGRADE; p++) {
 			Upgrade upgrade = upgradesHistoria[p];
@@ -656,12 +654,13 @@ public class Frame extends JFrame implements Serializable{
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
-					timeHistoria.scheduleAtFixedRate(new TimerTask() {
-						@Override
-						public void run() {
-							clicker.accumulate(1);
-						}
-					}, delay, delay);
+					resetGame.timer(delay);
+//					timeHistoria.scheduleAtFixedRate(new TimerTask() {
+//						@Override
+//						public void run() {
+//							clicker.accumulate(1);
+//						}
+//					}, delay, delay);
 					dps += 40;
 					auxCoinReset += 1.7;
 					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
@@ -765,8 +764,7 @@ public class Frame extends JFrame implements Serializable{
 		resetUpgradePanel.add(reset);
 		reset.addActionListener((e) -> {
 			if (clicker.getAccumulate() > 100) {
-				timerHistoria = false;
-				// timeHistoria.cancel();
+				resetGame.cancelTimer();
 				timeArtigo.cancel();
 				timeGifs.cancel();
 				timeModem.cancel();
