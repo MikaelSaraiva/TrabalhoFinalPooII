@@ -1,15 +1,13 @@
 Arrumar:
--Reset: Criar/Usar existente classe com metodos para criar os timers e nela arrumar o reset usando Timer.cancel(); 
+-Reset
 -Pixel Art
--Descriï¿½ï¿½o dos upgrades
+-Descrição dos upgrades
 -Setup de achievements
 -Save
--Heranï¿½a/Abstract/Interface
 -Exception
--Padrï¿½o de projeto
 
 Click upgrade prices : (7, 50, 500, 5000, 50000, 500000, 5000000, 50000000, 500000000, 1) , dobra incremento por click
-Learn to write articles upgrade prices : (15,18,21,24,27,30,33,36,39,42) , incrementa .1 geraï¿½ï¿½o por sec 
+Learn to write articles upgrade prices : (15,18,21,24,27,30,33,36,39,42) , incrementa .1 geração por sec 
 Articles upgrade prices : (100,115,130,145,160,175,190,205,220,235) , incrementa 1 por sec
 Gifs upgrade prices : (1000,1300,1600,1900,2200,2500,2800,3100,3400,3700) , incrementa 10 por sec
 Articlepedia upgrade prices : (10000,11500,13000,14500,16000,17500,19000,20500,22000,23500) , incrementa 100 por sec
@@ -17,4 +15,3 @@ Trials upgrade prices : (100000,103000,106000,109000,112000,115000,118000,121000
 Sleeping net upgrade prices : (1000000,1150000,1300000,1450000,1600000,1750000,1900000,2050000,2200000,2235000), incrementa 10000 por sec
 Modem upgrade prices : (10000000,10300000,10600000,10900000,11200000,11500000,11800000,12100000,12400000,12700000), incrementa 100000 por sec
 History time upgrade prices : (100000000,115000000,130000000,145000000,160000000,175000000,190000000,205000000,220000000,235000000), incrementa 1000000 por sec
->>>>>>> 4767f496b004f782a90e659e5b8909c303cfb041
