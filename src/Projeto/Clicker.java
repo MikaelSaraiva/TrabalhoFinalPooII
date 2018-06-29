@@ -2,19 +2,9 @@ package Projeto;
 
 import javax.swing.JOptionPane;
 
-public final class Clicker {
-	
-	private static Clicker instance = null;
-	protected Clicker() {}
-	public static Clicker getInstance() {
-		if(instance == null) {
-			instance = new Clicker();
-		}
-		return instance;
-	}
+public class Clicker {
 	
 	private int accumulator;
-
 	private final String[] namesLevel = { "UFSC", "USP", "UNAM", "Harvard",
 			"MIT", "Global", "Milky Way", "Universe",
 			"University of Toulouse, France", };
@@ -23,6 +13,10 @@ public final class Clicker {
 	private int resetCoin = 0;
 	private float dps;
 
+	public Clicker() {
+		
+	}
+	
 	public void accumulate(int multiplicador) {
 		accumulator += 1 * multiplicador;
 	}
