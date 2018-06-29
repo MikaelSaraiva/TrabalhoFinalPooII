@@ -5,7 +5,6 @@ import javax.swing.JOptionPane;
 public class Clicker {
 
 	public Clicker() {
-
 	}
 
 	private int accumulator;

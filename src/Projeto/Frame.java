@@ -36,6 +36,7 @@ public class Frame extends JFrame implements Serializable {
 	private JLabel upgradeLabel;
 	private JLabel upgradeClick;
 	private JLabel dpsLabel;
+	private JLabel clickLabel;
 	private JLabel pacitoLabel;
 	private JLabel artigosLabel;
 	private JLabel pediaLabel;
@@ -69,17 +70,16 @@ public class Frame extends JFrame implements Serializable {
 	private final String[] TEXTACHI = { "Exchanging modem/bike", "hours played",
 			"articles writed", "Hardcore", "No Cheating", "No fooling around",
 			"Confortable shirt", };
-	boolean timerHistoria = false;
 	private ObjectInputStream input;
 	private ObjectOutputStream output;
-	private TimeGame timeHistoria = new TimeGame();
-	private TimeGame timeArtigo = new TimeGame();
-	private TimeGame timePacito = new TimeGame();
-	private TimeGame timeModem = new TimeGame();
-	private TimeGame timeGif = new TimeGame();
-	private TimeGame timePedia = new TimeGame();
-	private TimeGame timeProcessos = new TimeGame();
-	private TimeGame timeSala = new TimeGame();
+	private TimerGame timeHistoria = new TimerGame();
+	private TimerGame timeArtigo = new TimerGame();
+	private TimerGame timePacito = new TimerGame();
+	private TimerGame timeModem = new TimerGame();
+	private TimerGame timeGif = new TimerGame();
+	private TimerGame timePedia = new TimerGame();
+	private TimerGame timeProcessos = new TimerGame();
+	private TimerGame timeSala = new TimerGame();
 
 	public Frame() {
 		super("Super Jumper");
@@ -88,17 +88,16 @@ public class Frame extends JFrame implements Serializable {
 		upgrade = new Upgrade();
 
 		ImagePanel upgradePanel = new ImagePanel(
-				new ImageIcon(this.getClass().getResource("Logo.png"))
-						.getImage());
-		ImagePanel clickUpgradePanel = new ImagePanel(
-				new ImageIcon(this.getClass().getResource("Logo.png"))
+				new ImageIcon(this.getClass().getResource("background.png"))
 						.getImage());
 		JPanel sideUpPanel = new JPanel();
 		JPanel buttonPanel = new JPanel();
 		ImagePanel dataPanel = new ImagePanel(
 				new ImageIcon(this.getClass().getResource("bedroom.png"))
 						.getImage());
-		JPanel resetUpgradePanel = new JPanel();
+		ImagePanel resetUpgradePanel = new ImagePanel(
+				new ImageIcon(this.getClass().getResource("background.png"))
+						.getImage());
 		JPanel achievementPanel = new JPanel();
 		ImagePanel achievementSideUpPanel = new ImagePanel(
 				new ImageIcon(this.getClass().getResource("CTC.png"))
@@ -116,6 +115,7 @@ public class Frame extends JFrame implements Serializable {
 		JMenuItem about = new JMenuItem("About");
 		JMenuItem itemAchievement = new JMenuItem("Achievements");
 		JDialog dialogAchievement = new JDialog(this, "Achievements", true);
+
 		DecimalFormat apsFormat = new DecimalFormat("0.00");
 
 		menu.add(changeUser);
@@ -168,8 +168,6 @@ public class Frame extends JFrame implements Serializable {
 
 		upgradePanel.setLayout(null);
 		upgradePanel.setPreferredSize(new Dimension(510, 8 * 50));
-		clickUpgradePanel.setLayout(
-				new BoxLayout(clickUpgradePanel, BoxLayout.PAGE_AXIS));
 		dataPanel.setLayout(new BoxLayout(dataPanel, BoxLayout.PAGE_AXIS));
 		resetUpgradePanel.setLayout(null);
 		sideUpPanel.setLayout(new GridLayout(1, 2));
@@ -179,7 +177,6 @@ public class Frame extends JFrame implements Serializable {
 		achievementSideDownPanel.setLayout(new GridLayout(3, 2, 5, 5));
 
 		sideUpPanel.setBackground(Color.WHITE);
-		clickUpgradePanel.setBackground(Color.BLACK);
 		resetUpgradePanel.setBackground(Color.BLACK);
 
 		sideUpPanel.add(dataPanel);
@@ -191,7 +188,6 @@ public class Frame extends JFrame implements Serializable {
 		JTabbedPane tabs = new JTabbedPane(JTabbedPane.TOP,
 				JTabbedPane.SCROLL_TAB_LAYOUT);
 		tabs.addTab("Upgrades", upgradeScrollPane);
-		tabs.addTab("Click Upgrades", clickUpgradePanel);
 		tabs.addTab("Reset", resetScrollPane);
 		add(tabs);
 
@@ -230,58 +226,66 @@ public class Frame extends JFrame implements Serializable {
 		int largura = 375;
 		int espacamento = altura + 10;
 
+		clickLabel = new JLabel(
+				"<html>Frodo insira aqui textinho<html>");
+		clickLabel.setIcon(
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
+		clickLabel.setHorizontalTextPosition(JLabel.CENTER);
+		clickLabel.setBounds(0, 0, largura, altura);
+		upgradePanel.add(clickLabel);
+		
 		pacitoLabel = new JLabel(
 				"<html>Learning to write articles: Lots of tutorials to reach ABNT <html>");
 		pacitoLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("writing.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		pacitoLabel.setHorizontalTextPosition(JLabel.CENTER);
-		pacitoLabel.setBounds(0, 0, largura, altura);
+		pacitoLabel.setBounds(0, espacamento, largura, altura);
 		upgradePanel.add(pacitoLabel);
 
 		artigosLabel = new JLabel(
 				"<html>Articles: Students creating the future, but going insane<html>");
 		artigosLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("article.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		artigosLabel.setHorizontalTextPosition(JLabel.CENTER);
-		artigosLabel.setBounds(0, espacamento, largura, altura);
+		artigosLabel.setBounds(0, espacamento * 2, largura, altura);
 		upgradePanel.add(artigosLabel);
 
 		gifsLabel = new JLabel(
 				"<html>Gifs: Students cheating and copying gifs from seniors<html>");
 		gifsLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("gifs.gif")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		gifsLabel.setHorizontalTextPosition(JLabel.CENTER);
-		gifsLabel.setBounds(0, espacamento * 2, largura, altura);
+		gifsLabel.setBounds(0, espacamento * 3, largura, altura);
 		upgradePanel.add(gifsLabel);
 
 		pediaLabel = new JLabel(
 				"<html>Articlepedia: Updating and verifying it isn't down<html>");
 		pediaLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("articlepedia.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		pediaLabel.setHorizontalTextPosition(JLabel.CENTER);
-		pediaLabel.setBounds(0, espacamento * 3, largura, altura);
+		pediaLabel.setBounds(0, espacamento * 4, largura, altura);
 		upgradePanel.add(pediaLabel);
 
 		processosLabel = new JLabel(
 				"<html>Trial: Learning about not letting anyone plagiarize<html>");
 		processosLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("trials.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		processosLabel.setHorizontalTextPosition(JLabel.CENTER);
-		processosLabel.setBounds(0, espacamento * 4, largura, altura);
+		processosLabel.setBounds(0, espacamento * 5, largura, altura);
 		upgradePanel.add(processosLabel);
 
 		salaLabel = new JLabel(
 				"<html>Chilling in the sleeping net: We need a break<html>");
 		salaLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("sleeping.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		salaLabel.setHorizontalTextPosition(JLabel.CENTER);
-		salaLabel.setBounds(0, espacamento * 5, largura, altura);
+		salaLabel.setBounds(0, espacamento * 6, largura, altura);
 		upgradePanel.add(salaLabel);
 
 		modemLabel = new JLabel(
 				"<html>Modem: Meeting it's properties and it's creator<html>");
 		modemLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("wifi.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		modemLabel.setHorizontalTextPosition(JLabel.CENTER);
 		modemLabel.setBounds(0, espacamento * 6, largura, altura);
 		upgradePanel.add(modemLabel);
@@ -289,7 +293,7 @@ public class Frame extends JFrame implements Serializable {
 		historiaLabel = new JLabel(
 				"<html>Story time: Everyone loves knowing how the teacher got stuck in traffic yesterday<html>");
 		historiaLabel.setIcon(
-				new ImageIcon(this.getClass().getResource("story.png")));
+				new ImageIcon(this.getClass().getResource("upgrade.png")));
 		historiaLabel.setHorizontalTextPosition(JLabel.CENTER);
 		historiaLabel.setBounds(0, espacamento * 7, largura, altura);
 		upgradePanel.add(historiaLabel);
@@ -320,44 +324,47 @@ public class Frame extends JFrame implements Serializable {
 		// Auto-Clickers upgrades setup
 
 		// First upgrade: Creating Articles
-		Upgrade[] upgradesPacito = new Upgrade[QTDUPGRADE];
-		for (int j = 0; j < QTDUPGRADE; j++) {
-			upgradesPacito[j] = new Upgrade(clicker, j + 1,
-					10000 / diminutiveTime);
-		}
-
-		JButton[] buttonsPacito = new JButton[QTDUPGRADE];
-		for (int i = 0; i < QTDUPGRADE; i++) {
-			Upgrade upgrade = upgradesPacito[i];
-			buttonsPacito[i] = new JButton(String.format("%d articles",
-					(custoPadrao * upgrade.getCost())));
-			JButton btnUpgrade = buttonsPacito[i];
-			btnUpgrade.setBounds(410, 0, 100, altura);
-			btnUpgrade.setHorizontalAlignment(SwingConstants.RIGHT);
-			btnUpgrade.setVisible(false);
-			upgradePanel.add(btnUpgrade);
-			btnUpgrade.addActionListener((e) -> {
-				int custo = custoPadrao * upgrade.getCost();
-				if (clicker.getAccumulate() >= custo) {
-					btnUpgrade.setEnabled(true);
-					clicker.setAccumulate(clicker.getAccumulate() - custo);
-					long delay = TEMPO * upgrade.getPeriod();
-					timePacito.timer(delay, clicker);
-					dps += 0.1 * diminutiveTime;
-					auxCoinReset += 1.0;
-					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
-					if (this.pacito == upgradesPacito.length - 1) {
-						buttonsPacito[this.pacito].setEnabled(false);
-					} else {
-						buttonsPacito[this.pacito].setVisible(false);
-						buttonsPacito[this.pacito + 1].setVisible(true);
-						this.pacito++;
-					}
-				} else
-					JOptionPane.showMessageDialog(null, "Not enough articles");
-			});
-		}
-		buttonsPacito[0].setVisible(true);
+		
+		upgradePanel.add(upgrade.buttons(QTDUPGRADE, upgrade.upgradeArray(QTDUPGRADE, diminutiveTime), 1, custoPadrao, TEMPO, timePacito, diminutiveTime))  ;
+		
+//		Upgrade[] upgradesPacito = new Upgrade[QTDUPGRADE];
+//		for (int j = 0; j < QTDUPGRADE; j++) {
+//			upgradesPacito[j] = new Upgrade(clicker, j + 1,
+//					10000 / diminutiveTime);
+//		}
+//
+//		JButton[] buttonsPacito = new JButton[QTDUPGRADE];
+//		for (int i = 0; i < QTDUPGRADE; i++) {
+//			Upgrade upgrade = upgradesPacito[i];
+//			buttonsPacito[i] = new JButton(String.format("%d articles",
+//					(custoPadrao * upgrade.getCost())));
+//			JButton btnUpgrade = buttonsPacito[i];
+//			btnUpgrade.setBounds(410, espacamento * 1, 100, altura);
+//			btnUpgrade.setHorizontalAlignment(SwingConstants.RIGHT);
+//			btnUpgrade.setVisible(false);
+//			upgradePanel.add(btnUpgrade);
+//			btnUpgrade.addActionListener((e) -> {
+//				int custo = custoPadrao * upgrade.getCost();
+//				if (clicker.getAccumulate() >= custo) {
+//					btnUpgrade.setEnabled(true);
+//					clicker.setAccumulate(clicker.getAccumulate() - custo);
+//					long delay = TEMPO * upgrade.getPeriod();
+//					timePacito.timer(delay, clicker);
+//					dps += 0.1 * diminutiveTime;
+//					auxCoinReset += 1.0;
+//					upgradeLabel.setText("Upgrade: " + (upgradeLevel++));
+//					if (this.pacito == upgradesPacito.length - 1) {
+//						buttonsPacito[this.pacito].setEnabled(false);
+//					} else {
+//						buttonsPacito[this.pacito].setVisible(false);
+//						buttonsPacito[this.pacito + 1].setVisible(true);
+//						this.pacito++;
+//					}
+//				} else
+//					JOptionPane.showMessageDialog(null, "Not enough articles");
+//			});
+//		}
+//		buttonsPacito[0].setVisible(true);
 
 		// Writing Articles
 		Upgrade[] upgradesArtigo = new Upgrade[QTDUPGRADE];
@@ -372,7 +379,7 @@ public class Frame extends JFrame implements Serializable {
 			buttonsArtigo[i] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsArtigo[i];
-			btnUpgrade.setBounds(410, espacamento, 100, altura);
+			btnUpgrade.setBounds(410, espacamento * 2, 100, altura);
 			btnUpgrade.setHorizontalAlignment(SwingConstants.RIGHT);
 			btnUpgrade.setVisible(false);
 			upgradePanel.add(btnUpgrade);
@@ -411,7 +418,7 @@ public class Frame extends JFrame implements Serializable {
 			buttonsGifs[k] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsGifs[k];
-			btnUpgrade.setBounds(410, espacamento * 2, 100, 40);
+			btnUpgrade.setBounds(410, espacamento * 3, 100, 40);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -450,7 +457,7 @@ public class Frame extends JFrame implements Serializable {
 			buttonsPedia[l] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsPedia[l];
-			btnUpgrade.setBounds(410, espacamento * 3, 100, altura);
+			btnUpgrade.setBounds(410, espacamento * 4, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -489,7 +496,7 @@ public class Frame extends JFrame implements Serializable {
 			buttonsProcessos[m] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsProcessos[m];
-			btnUpgrade.setBounds(410, espacamento * 4, 100, altura);
+			btnUpgrade.setBounds(410, espacamento * 5, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -528,7 +535,7 @@ public class Frame extends JFrame implements Serializable {
 			buttonsSala[n] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsSala[n];
-			btnUpgrade.setBounds(410, espacamento * 5, 100, altura);
+			btnUpgrade.setBounds(410, espacamento * 6, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -567,7 +574,7 @@ public class Frame extends JFrame implements Serializable {
 			buttonsModem[o] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsModem[o];
-			btnUpgrade.setBounds(410, espacamento * 6, 100, altura);
+			btnUpgrade.setBounds(410, espacamento * 7, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
@@ -606,14 +613,13 @@ public class Frame extends JFrame implements Serializable {
 			buttonsHistoria[p] = new JButton(String.format("%d articles",
 					(custoPadrao * upgrade.getCost())));
 			JButton btnUpgrade = buttonsHistoria[p];
-			btnUpgrade.setBounds(410, espacamento * 7, 100, altura);
+			btnUpgrade.setBounds(410, espacamento * 8, 100, altura);
 			btnUpgrade.setVisible(false);
 			btnUpgrade.setAlignmentX(LEFT_ALIGNMENT);
 			upgradePanel.add(btnUpgrade);
 			btnUpgrade.addActionListener((e) -> {
 				int custo = custoPadrao * upgrade.getCost();
 				if (clicker.getAccumulate() >= custo) {
-					timerHistoria = true;
 					btnUpgrade.setEnabled(true);
 					clicker.setAccumulate(clicker.getAccumulate() - custo);
 					long delay = TEMPO * upgrade.getPeriod();
@@ -649,9 +655,10 @@ public class Frame extends JFrame implements Serializable {
 					String.format("Writing more articles (%d Articles)",
 							(custoPadrao * upgradeMulti.getCost())));
 			JButton btnUpgradeClick = buttonsClick[j];
+			btnUpgradeClick.setBounds(410, 0, 100, altura);
 			btnUpgradeClick.setVisible(false);
 			btnUpgradeClick.setAlignmentX(LEFT_ALIGNMENT);
-			clickUpgradePanel.add(btnUpgradeClick);
+			upgradePanel.add(btnUpgradeClick);
 			btnUpgradeClick.addActionListener((e) -> {
 				int custo = custoPadrao * upgradeMulti.getCost();
 				if (clicker.getAccumulate() >= custo) {
@@ -676,6 +683,8 @@ public class Frame extends JFrame implements Serializable {
 		}
 		buttonsClick[0].setVisible(true);
 
+		// ....................................................................................................
+		
 		Upgrade[] upgradesTempo = new Upgrade[QTDUPGRADE];
 		for (int j = 0; j < QTDUPGRADE; j++) {
 			upgradesTempo[j] = new Upgrade(clicker, j + 1);
@@ -760,10 +769,10 @@ public class Frame extends JFrame implements Serializable {
 					btn.setEnabled(false);
 					btn.setVisible(false);
 				}
-				for (JButton btn : buttonsPacito) {
-					btn.setEnabled(false);
-					btn.setVisible(false);
-				}
+//				for (JButton btn : buttonsPacito) {
+//					btn.setEnabled(false);
+//					btn.setVisible(false);
+//				}
 				for (JButton btn : buttonsPedia) {
 					btn.setEnabled(false);
 					btn.setVisible(false);
@@ -798,10 +807,10 @@ public class Frame extends JFrame implements Serializable {
 					btn.setEnabled(true);
 					btn.setVisible(true);
 				}
-				for (JButton btn : buttonsPacito) {
-					btn.setEnabled(true);
-					btn.setVisible(true);
-				}
+//				for (JButton btn : buttonsPacito) {
+//					btn.setEnabled(true);
+//					btn.setVisible(true);
+//				}
 				for (JButton btn : buttonsPedia) {
 					btn.setEnabled(true);
 					btn.setVisible(true);
@@ -829,7 +838,7 @@ public class Frame extends JFrame implements Serializable {
 						.setText("Articles: " + clicker.getAccumulate());
 				dpsLabel.setText(
 						"APS(Artigos per second): " + apsFormat.format(dps));
-				if (clicker.getAccumulate() >= 100)
+				if (clicker.getAccumulate() >= 100000)
 					reset.setEnabled(true);
 
 				if (clicker.getAccumulate() >= 10000 + (q * 20000)) {

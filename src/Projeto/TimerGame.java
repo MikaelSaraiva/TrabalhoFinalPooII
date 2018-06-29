@@ -3,11 +3,11 @@ package Projeto;
 import java.util.Timer;
 import java.util.TimerTask;
 
-public class TimeGame {
+public class TimerGame {
 
 	private Timer time = new Timer();
 
-	public TimeGame() {
+	public TimerGame() {
 	}
 
 	public void timer(long delay, Clicker clicker) {
